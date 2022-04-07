@@ -1,0 +1,100 @@
+.header{
+    display: flex;
+    height: 80px;
+    width: 100%;
+    background-color: #ffffff;
+    padding-left: 22px;
+    padding-right: 22px;
+    justify-content: space-between;
+    align-items: center;
+    .title{
+        font-size: 18px;
+        line-height: 28px;
+        text-align: left;
+        color: #000000D9;        
+    }
+    .registered{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 22px;
+        .create{
+            width: 112px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0px;
+            color: #52C41A;
+            background-color: #ffffff;
+            border: 1px solid #52C41A;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 26px;
+        }
+        .person-info{
+            display: flex;
+            justify-content: space-between;
+            .person-name{
+                display: inline-block;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 20px;
+                letter-spacing: 0em;
+                margin: auto;
+                margin-right: 13px;
+            }
+            .person-avatar{
+                display: block;
+                width: 46px;
+                height: 46px;
+            }
+        } 
+    }
+    .sign{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+       
+    }
+    .sign-in{
+        width: 109px;
+        height: 51px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0px;
+        background-color: #ffffff;
+        border: 0;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .sign-up{
+        width: 109px;
+        height: 51px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0px;
+        color: #52C41A;
+        background-color: #ffffff;
+        border: 1px solid #52C41A;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}

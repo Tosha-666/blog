@@ -1,0 +1,45 @@
+// Обнуляющие стили
+
+* {
+    margin: 0;  
+    padding: 0;
+    border: 0;
+  }
+  h1,h2,h3,h4,h5,h6,span,button,ol,ul,p,li,blockquote,input,textarea,fieldset {
+    font-size: 100%;  
+    font-weight: normal;
+    font-family: Inter;
+    letter-spacing: 0px;
+    text-align: left;
+
+
+
+  } 
+  ul {
+    list-style: none;
+  } 
+  button,input,select,textarea {
+    margin: 0;
+  } 
+  html {
+    box-sizing: border-box;
+  } 
+  *, *:before, *:after { 
+    box-sizing: inherit;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  td,th {
+    padding: 0;  
+    text-align: left;
+  }
+
+// Стили объекта
+
+  .main{
+    background-color: #E5E5E5;
+    min-height: 100vh;
+  }
