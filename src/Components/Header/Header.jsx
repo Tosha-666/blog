@@ -1,5 +1,7 @@
 import React from 'react'
+
 import './Header.scss'
+import avatar from '../../images/user-avatar.svg'
 
 const Header = () => {
   return (
@@ -9,7 +11,7 @@ const Header = () => {
         <button className="create">Create article</button>
         <div className="person-info">
           <span className="person-name">John Dow</span>
-          <img src="" alt="" className="person-avatar" />
+          <img src={avatar} alt="" className="person-avatar" />
         </div>
       </div>
       <div className="sign">

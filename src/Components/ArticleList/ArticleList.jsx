@@ -1,5 +1,7 @@
 import React from 'react'
+
 import './ArticleList.scss'
+import avatar from '../../images/user-avatar.svg'
 
 const ArticleList = () => {
   return (
@@ -22,9 +24,11 @@ const ArticleList = () => {
           </span>
         </div>
         <div className="people-info">
-          <img src="" alt="" className="article-author-image" />
-          <span className="article-author-name">John Doe</span>
-          <span className="article-release-date"></span>
+          <div className="user-name-wrapper">
+            <span className="article-author-name">John Doe</span>
+            <span className="article-release-date">March 5, 2020</span>
+          </div>
+          <img src={avatar} alt="" className="article-author-image" />
         </div>
       </div>
     </div>
