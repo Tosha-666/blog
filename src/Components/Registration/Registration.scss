@@ -10,6 +10,7 @@
     padding: 48px 32px;
     margin-top: 60px;
     border-radius: 6px;
+    // box-sizing: content-box;
     
     .registration-title{
         font-family: Roboto;
@@ -48,8 +49,103 @@
         line-height: 24px;
         letter-spacing: 0em;
         text-align: left;
-        color: #BFBFBF;
+        color: #000000BF;
+    }
+    hr{
+        margin-top: 21px;
+        border: 1px solid #E8E8E8
+    }
+    .registration-agreement{
+        // margin-top: 8px;
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        & + .checkbox-label {
+          display: inline-flex;
+          align-items: flex-start;
+          user-select: none;
+        }
+        & + .checkbox-label::before {
+          content: '';
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          border: 1px solid #adb5bd;
+          border-radius: 2px;
+          margin-right: 0.5em;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 90% 90%;
+          margin-top: 5px;
+        }
+        &:checked + .checkbox-label::before {
+          border-color: #1890FF;
+          background-color: #1890FF;
+          background-image: url('../../images/check.svg');
+        }
 
+        &:not(:disabled):not(:checked) + label:hover::before {
+          border-color: #b3d7ff;
+        }
+
+        /* стили для активного чекбокса (при нажатии на него) */
+        &:not(:disabled):active + label::before {
+          background-color: #b3d7ff;
+          border-color: #b3d7ff;
+        }
+
+        /* стили для чекбокса, находящегося в фокусе */
+        &:focus + label::before {
+          box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+        &:focus:not(:checked) + label::before {
+          border-color: #80bdff;
+        }
+
+        /* стили для чекбокса, находящегося в состоянии disabled */
+        &:disabled + label::before {
+          background-color: #e9ecef;
+        }
+      }
+
+      .checkbox-label {
+        margin-top: 8px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        color: #595959;
+
+      }
+      .registration-send-form{
+        width: 320px;
+        height: 40px;
+        background-color: #1890FF;
+        border-radius: 4px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 21px;
+      }
+      span{
+        font-family: Roboto;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+        margin-top: 8px;
+        color: #8C8C8C;
+      }
     }
 }
-}
+

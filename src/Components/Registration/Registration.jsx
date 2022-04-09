@@ -36,16 +36,35 @@ const Registration = () => {
           className="registration-input"
           placeholder="Password"
         />
-        <label htmlFor="Password" className="registration-label">
+        <label htmlFor="repeat_password" className="registration-label">
           Repeat password
         </label>
         <input
           type="password"
           name="Password"
-          id="Password"
+          id="repeat_password"
           className="registration-input"
           placeholder="Password"
         />
+        <hr />
+        <input
+          type="checkbox"
+          className="registration-agreement"
+          id="agreement"
+          // checked
+        />
+        <label htmlFor="agreement" className="checkbox-label">
+          I agree to the processing of my personal information
+        </label>
+        <input
+          type="submit"
+          className="registration-send-form"
+          value="Create"
+        />
+        <span>
+          Already have an account?
+          <a href="#">Sign In.</a>
+        </span>
       </form>
     </div>
   )
