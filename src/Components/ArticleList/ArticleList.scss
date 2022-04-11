@@ -6,7 +6,7 @@
     text-align: left;
   }
 
-    .article-preview{
+    .article-list-preview{
         width: 941px;
         height: 140px;
         background-color: #fff;
@@ -19,16 +19,16 @@
         padding-left: 19px;
         padding-right: 15px;
         padding-bottom: 24px;        
-        .article-info{
+        .article-list-info{
             display: flex;
             flex-direction: column;
             width: 70%;
-            .article-header{
+            .article-list-header{
                 display: flex;
                 justify-content: start;
                 align-items: center;
 
-                .article-title{
+                .article-list-title{
                     font-size: 20px;
                     font-weight: 400;
                     line-height: 28px;
@@ -37,7 +37,7 @@
                     color: #1890FF;
                     margin-right: 13px;
                 }
-                .article-like{
+                .article-list-like{
                     width: 16px;
                     height: 14px;
                     &::after{

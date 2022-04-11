@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import './Header.scss'
 import avatar from '../../images/user-avatar.svg'
@@ -15,8 +16,12 @@ const Header = () => {
         </div>
       </div>
       <div className="sign">
-        <button className="sign-in">Sign In</button>
-        <button className="sign-up">Sign Up</button>
+        <button className="sign-in">
+          <Link to="/registration/">Sign In</Link>
+        </button>
+        <button className="sign-up">
+          <Link to="/authentification/">Sign Up</Link>
+        </button>
       </div>
     </header>
   )
