@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import { App } from './Components/App'
 import { ErrorBoundry } from './Components/ErrorBoundry'
-import { store } from './store'
+import store from './Components/store'
 
 ReactDOM.render(
   <Provider store={store}>
