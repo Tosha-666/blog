@@ -1,9 +1,9 @@
-const initialState = {
-  token: '',
-  articlesList: [],
-  isLoggedIn: false,
-}
+// const initialState = {
+//   token: '',
+//   articlesList: [],
+//   isLoggedIn: false,
+// }
 
-const reduser = (state = initialState, action) => {}
+// const reduser = (state = initialState, action) => {}
 
-export { reduser }
+// export { reduser }

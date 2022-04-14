@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import './Registration.scss'
 
 const Registration = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({ mode: 'onBlur' })
+
+  const [repeatPassword, setRepeatPassword] = useState('')
   return (
     <div className="registration-container">
-      <span className="registration-title">Create new account</span>
-      <form action="#" method="post" className="registration-form">
+      <h1 className="registration-title">Create new account</h1>
+      <form
+        action="#"
+        method="post"
+        className="registration-form"
+        onSubmit={handleSubmit((data) => console.log(data))}
+      >
         <label htmlFor="UserName" className="registration-label">
           Username
         </label>
@@ -15,17 +28,46 @@ const Registration = () => {
           id="UserName"
           className="registration-input"
           placeholder="Username"
+          {...register('userName', {
+            required: true,
+            maxLength: {
+              value: 20,
+              message: 'Your username needs to be not more 20 characters',
+            },
+            minLength: {
+              value: 3,
+              message: 'Your username needs to be at least 10 characters',
+            },
+          })}
         />
-        <label htmlFor="EmailAdress" className="registration-label">
-          EmailAdress
+        <div className="registration-error">
+          {' '}
+          {errors?.userName && <p>{errors?.userName?.message}</p>}
+          {errors?.userName?.type === 'required' && (
+            <p>This field is required</p>
+          )}
+        </div>
+
+        <label htmlFor="EmailAddress" className="registration-label">
+          Email Address
         </label>
         <input
           type="email"
-          name="EmailAdress"
+          name="EmailAddress"
           id="EmailAdress"
           className="registration-input"
-          placeholder="EmailAdress"
+          placeholder="Email Address"
+          {...register('emailAddress', {
+            required: true,
+            pattern: /\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}/,
+          })}
         />
+        <div className="registration-error">
+          {' '}
+          {errors?.emailAddress?.type === 'pattern' && (
+            <p>Enter valid Email Address</p>
+          )}
+        </div>
         <label htmlFor="Password" className="registration-label">
           Password
         </label>
@@ -35,6 +77,7 @@ const Registration = () => {
           id="Password"
           className="registration-input"
           placeholder="Password"
+          {...register('password')}
         />
         <label htmlFor="repeat_password" className="registration-label">
           Repeat password
@@ -45,6 +88,8 @@ const Registration = () => {
           id="repeat_password"
           className="registration-input"
           placeholder="Password"
+          value={repeatPassword}
+          onChange={(e) => setRepeatPassword(e.target.value)}
         />
         <hr />
         <input

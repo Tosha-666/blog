@@ -51,6 +51,18 @@
         text-align: left;
         color: #000000BF;
     }
+    .registration-error{
+      margin: 2px;
+      p{
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #F5222D;
+      }
+    }
     hr{
         margin-top: 21px;
         border: 1px solid #E8E8E8

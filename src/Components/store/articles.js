@@ -11,7 +11,9 @@ export const getArticles = createAsyncThunk(
         offset: 0,
       },
     })
-    return { data: articles.data, status: articles.status }
+    if (articles.status === 200) {
+      return articles.data.articles
+    }
   }
 )
 
