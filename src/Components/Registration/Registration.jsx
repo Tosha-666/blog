@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import './Registration.scss'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 const Registration = () => {
+  const schema = yup
+    .object({
+      password: yup
+        .string()
+        .required('Password is required')
+        .min(6, 'Your password needs to be at least 6 characters')
+        .max(20, 'Your username needs to be not more 20 characters'),
+      passwordConfirm: yup
+        .string()
+        .required('Password confirm  required')
+        .oneOf([yup.ref('password')], 'Passwords must match'),
+    })
+    .shape({
+      registrationAgreement: yup.bool().oneOf([true], 'Accept is required'),
+    })
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({ mode: 'onBlur' })
+    reset,
+  } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
-  const [repeatPassword, setRepeatPassword] = useState('')
+  const onSubmit = (data) => {
+    console.log(data)
+    reset()
+  }
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>
@@ -17,7 +38,7 @@ const Registration = () => {
         action="#"
         method="post"
         className="registration-form"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="UserName" className="registration-label">
           Username
@@ -26,7 +47,9 @@ const Registration = () => {
           type="text"
           name="Username"
           id="UserName"
-          className="registration-input"
+          className={`registration-input ${
+            errors.userName ? 'is-invalid' : ''
+          }`}
           placeholder="Username"
           {...register('userName', {
             required: true,
@@ -59,7 +82,7 @@ const Registration = () => {
           placeholder="Email Address"
           {...register('emailAddress', {
             required: true,
-            pattern: /\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w{2,4}/,
+            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
           })}
         />
         <div className="registration-error">
@@ -73,34 +96,59 @@ const Registration = () => {
         </label>
         <input
           type="password"
-          name="Password"
+          name="password"
           id="Password"
           className="registration-input"
           placeholder="Password"
-          {...register('password')}
+          {...register('password', {
+            required: true,
+            maxLength: {
+              value: 20,
+              message: 'Your password needs to be not more 20 characters',
+            },
+            minLength: {
+              value: 6,
+              message: 'Your password needs to be at least 6 characters',
+            },
+          })}
         />
+        <div className="registration-error">
+          {' '}
+          {errors?.password && <p>{errors?.password?.message}</p>}
+        </div>
         <label htmlFor="repeat_password" className="registration-label">
           Repeat password
         </label>
         <input
           type="password"
-          name="Password"
+          name="passwordConfirm"
           id="repeat_password"
           className="registration-input"
           placeholder="Password"
-          value={repeatPassword}
-          onChange={(e) => setRepeatPassword(e.target.value)}
+          {...register('passwordConfirm')}
         />
+        <div className="registration-error">
+          {' '}
+          {errors?.passwordConfirm && <p>{errors?.passwordConfirm?.message}</p>}
+        </div>
         <hr />
         <input
           type="checkbox"
           className="registration-agreement"
+          name="registrationAgreement"
           id="agreement"
+          {...register('registrationAgreement')}
           // checked
         />
         <label htmlFor="agreement" className="checkbox-label">
           I agree to the processing of my personal information
         </label>
+        <div className="registration-error">
+          {' '}
+          {errors?.registrationAgreement && (
+            <p>{errors?.registrationAgreement?.message}</p>
+          )}
+        </div>
         <input
           type="submit"
           className="registration-send-form"
