@@ -7,11 +7,25 @@ import * as yup from 'yup'
 const Registration = () => {
   const schema = yup
     .object({
+      userName: yup
+        .string()
+        .required('Username is required')
+        .min(3, 'Your username needs to be at least 3 characters')
+        .max(20, 'Your username needs to be not more 20 characters'),
+      emailAddress: yup
+        .string()
+        .matches(
+          /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
+          'Enter valid email'
+        )
+
+        .min(3, 'must be at least 3 characters long')
+        .email('must be a valid email'),
       password: yup
         .string()
         .required('Password is required')
         .min(6, 'Your password needs to be at least 6 characters')
-        .max(20, 'Your username needs to be not more 20 characters'),
+        .max(40, 'Your password needs to be not more 40 characters'),
       passwordConfirm: yup
         .string()
         .required('Password confirm  required')
@@ -51,24 +65,11 @@ const Registration = () => {
             errors.userName ? 'is-invalid' : ''
           }`}
           placeholder="Username"
-          {...register('userName', {
-            required: true,
-            maxLength: {
-              value: 20,
-              message: 'Your username needs to be not more 20 characters',
-            },
-            minLength: {
-              value: 3,
-              message: 'Your username needs to be at least 10 characters',
-            },
-          })}
+          {...register('userName')}
         />
         <div className="registration-error">
           {' '}
           {errors?.userName && <p>{errors?.userName?.message}</p>}
-          {errors?.userName?.type === 'required' && (
-            <p>This field is required</p>
-          )}
         </div>
 
         <label htmlFor="EmailAddress" className="registration-label">
@@ -78,18 +79,15 @@ const Registration = () => {
           type="email"
           name="EmailAddress"
           id="EmailAdress"
-          className="registration-input"
+          className={`registration-input ${
+            errors.emailAddress ? 'is-invalid' : ''
+          }`}
           placeholder="Email Address"
-          {...register('emailAddress', {
-            required: true,
-            pattern: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
-          })}
+          {...register('emailAddress')}
         />
         <div className="registration-error">
           {' '}
-          {errors?.emailAddress?.type === 'pattern' && (
-            <p>Enter valid Email Address</p>
-          )}
+          {errors?.emailAddress && <p>{errors?.emailAddress?.message}</p>}
         </div>
         <label htmlFor="Password" className="registration-label">
           Password
@@ -98,19 +96,11 @@ const Registration = () => {
           type="password"
           name="password"
           id="Password"
-          className="registration-input"
+          className={`registration-input ${
+            errors.password ? 'is-invalid' : ''
+          }`}
           placeholder="Password"
-          {...register('password', {
-            required: true,
-            maxLength: {
-              value: 20,
-              message: 'Your password needs to be not more 20 characters',
-            },
-            minLength: {
-              value: 6,
-              message: 'Your password needs to be at least 6 characters',
-            },
-          })}
+          {...register('password')}
         />
         <div className="registration-error">
           {' '}
@@ -123,7 +113,9 @@ const Registration = () => {
           type="password"
           name="passwordConfirm"
           id="repeat_password"
-          className="registration-input"
+          className={`registration-input ${
+            errors.passwordConfirm ? 'is-invalid' : ''
+          }`}
           placeholder="Password"
           {...register('passwordConfirm')}
         />
@@ -138,7 +130,6 @@ const Registration = () => {
           name="registrationAgreement"
           id="agreement"
           {...register('registrationAgreement')}
-          // checked
         />
         <label htmlFor="agreement" className="checkbox-label">
           I agree to the processing of my personal information
