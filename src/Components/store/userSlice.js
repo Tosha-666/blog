@@ -4,6 +4,7 @@ const initialState = {
   email: null,
   token: null,
   image: null,
+  isAuthorized: null,
 }
 const userSlice = createSlice({
   name: 'user',
@@ -14,7 +15,10 @@ const userSlice = createSlice({
       state.email = action.payload.email
       state.token = action.payload.token
       state.image = action.payload.image
+      state.isAuthorized = !!action.payload.token
+      console.log(action.payload)
     },
+
     removeUser(state) {
       state.username = null
       state.email = null

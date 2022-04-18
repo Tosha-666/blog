@@ -1,10 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import './Registration.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { setUser } from '../store/userSlice'
+import api from '../../api'
+
 const Registration = () => {
+  const dispatch = useDispatch()
   const schema = yup
     .object({
       userName: yup
@@ -41,10 +47,24 @@ const Registration = () => {
     reset,
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const registrationUser = async (registrationData) => {
+    console.log(registrationData)
+    const regData = await api.post('api/users', {
+      user: {
+        username: registrationData.userName,
+        email: registrationData.emailAddress,
+        password: registrationData.password,
+      },
+    })
+
+    dispatch(setUser(regData.data.user))
+    console.log(regData)
     reset()
   }
+  // const onSubmit = (data) => {
+  //   console.log(data)
+  //   reset()
+  // }
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>
@@ -52,7 +72,7 @@ const Registration = () => {
         action="#"
         method="post"
         className="registration-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(registrationUser)}
       >
         <label htmlFor="UserName" className="registration-label">
           Username
@@ -147,7 +167,8 @@ const Registration = () => {
         />
         <span>
           Already have an account?
-          <a href="#">Sign In.</a>
+          <Link to="/authentification/">Sign In</Link>
+          {/* <a href="#">Sign In.</a> */}
         </span>
       </form>
     </div>

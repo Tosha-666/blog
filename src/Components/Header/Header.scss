@@ -11,7 +11,12 @@
         font-size: 18px;
         line-height: 28px;
         text-align: left;
-        color: #000000D9;        
+        color: #000000D9;       
+        background-color: #ffffff; 
+        cursor: pointer;
+        a{
+            color: #000000D9;   
+        }
     }
     .registered{
         display: flex;
@@ -78,6 +83,9 @@
         padding: 6px 10px;
         border-radius: 5px;
         cursor: pointer;
+        a{
+            color: #000000D9;   
+        }
     }
     .sign-up{
         width: 109px;
@@ -96,5 +104,8 @@
         padding: 6px 10px;
         border-radius: 5px;
         cursor: pointer;
+        a{
+            color: #52C41A;
+        }
     }
 }

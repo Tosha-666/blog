@@ -68,3 +68,47 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<!-- 
+{
+    "data": {
+        "user": {
+            "email": "gennadij.minakofff@yandex.ru",
+            "username": "fedora_tutcheva_103",
+            "bio": null,
+            "image": "https://api.realworld.io/images/smiley-cyrus.jpeg",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdlbm5hZGlqLm1pbmFrb2ZmZkB5YW5kZXgucnUiLCJ1c2VybmFtZSI6ImZlZG9yYV90dXRjaGV2YV8xMDMiLCJpYXQiOjE2NTAyODAwMTQsImV4cCI6MTY1NTQ2NDAxNH0.MQZ5LgrrUVvrsyApXuKAhE-4FHqXFF2twN4AWwopWRo"
+        }
+    },
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "content-type": "application/json; charset=utf-8"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        },
+        "baseURL": "https://api.realworld.io/",
+        "method": "post",
+        "url": "api/users",
+        "data": "{\"user\":{\"username\":\"fedora_tutcheva_103\",\"email\":\"gennadij.minakofff@yandex.ru\",\"password\":\"123456\"}}"
+    },
+    "request": {}
+} -->
