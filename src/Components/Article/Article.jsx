@@ -1,33 +1,57 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+
+import api from '../../api'
 
 import './Article.scss'
-import avatar from '../../images/user-avatar.svg'
 
 const Article = () => {
+  const { slug } = useParams()
+
+  const [title, setTitle] = useState('')
+  const [likeCount, setlikeCount] = useState('')
+  const [tags, setTags] = useState('')
+  const [description, setDescription] = useState('')
+  const [author, setAuthor] = useState('')
+  const [date, setDate] = useState('')
+  const [content, setContent] = useState('')
+  const [avatar, setAvatar] = useState('')
+
+  useEffect(() => {
+    getAritcle(slug)
+  }, [])
+  const getAritcle = async (slug) => {
+    const articleData = await api.get(`api/articles/${slug}`)
+    console.log(articleData)
+    setTitle(articleData.title)
+    setlikeCount(articleData.favoritesCount)
+    setTags(articleData.tagList[0])
+    setDescription(articleData.description)
+    setAuthor(articleData.author.username)
+    setDate(articleData.createdAt)
+    setContent(articleData.body)
+    setAvatar(articleData.author.image)
+  }
+
   return (
     <div className="article-container">
       <div className="article-preview">
         <div className="article-info">
           <div className="article-header">
-            <span className="article-title">Some article title</span>
+            <span className="article-title">{title}</span>
             <button className="article-like"></button>
-            <span className="article-like-count">10</span>
+            <span className="article-like-count">{likeCount}</span>
           </div>
           <div className="article-tag-list">
-            <span className="article-tag-item">Tag</span>
+            <span className="article-tag-item">{tags}</span>
           </div>
-          <span className="article-content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </span>
+          <span className="article-content">{description}</span>
         </div>
         <div className="user-personalize">
           <div className="people-info">
             <div className="user-name-wrapper">
-              <span className="article-author-name">John Doe</span>
-              <span className="article-release-date">March 5, 2020</span>
+              <span className="article-author-name">{author}</span>
+              <span className="article-release-date">{date}</span>
             </div>
             <img src={avatar} alt="" className="article-author-image" />
           </div>
@@ -36,21 +60,7 @@ const Article = () => {
             <button className="edit">Edit</button>
           </div>
         </div>
-        <span className="article-content-all">
-          Est Ampyciden pater patent Amor saxa inpiger Lorem markdownum Stygias
-          neque is referam fudi, breve per. Et Achaica tamen: nescia ista
-          occupat, illum se ad potest humum et. Qua deos has fontibus Recens nec
-          ferro responsaque dedere armenti opes momorderat pisce, vitataque et
-          fugisse. Et iamque incipiens, qua huius suo omnes ne pendentia citus
-          pedum. Quamvis pronuba Ulli labore facta. Io cervis non nosterque
-          nullae, vides: aethere Delphice subit, tamen Romane ob cubilia
-          Rhodopen calentes librata! Nihil populorum flava, inrita? Sit hic
-          nunc, hoc formae Esse illo? Umeris eram similis, crudelem de est
-          relicto ingemuit finiat Pelia uno cernunt Venus draconem, hic,
-          Methymnaeae. 1. Clamoribus haesit tenentem iube Haec munera 2. Vincla
-          venae 3. Paris includere etiam tamen 4. Superi te putria imagine
-          Deianira 5. Tremore hoste Esse sed perstat capillis siqua
-        </span>
+        <span className="article-content-all">{content}</span>
       </div>
     </div>
   )

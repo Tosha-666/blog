@@ -22,15 +22,12 @@ const App = () => {
       <Header />
       <section className="container">
         <Routes>
-          <Route path="/" element={<ArticleList />} />
+          <Route path="/" element={<ArticleList />} exact />
           <Route path="/article/" element={<Article />} />
+          <Route path="/article/:slug" />
           <Route path="/registration/" element={<Registration />} />
           <Route path="/authentification/" element={<Authentification />} />
         </Routes>
-
-        {/* <ArticleList /> */}
-        {/* <Article /> */}
-        {/* <Registration /> */}
       </section>
     </div>
   )
