@@ -10,7 +10,7 @@ const Article = () => {
 
   const [title, setTitle] = useState('')
   const [likeCount, setlikeCount] = useState('')
-  const [tags, setTags] = useState('')
+  // const [tags, setTags] = useState('')
   const [description, setDescription] = useState('')
   const [author, setAuthor] = useState('')
   const [date, setDate] = useState('')
@@ -23,14 +23,31 @@ const Article = () => {
   const getAritcle = async (slug) => {
     const articleData = await api.get(`api/articles/${slug}`)
     console.log(articleData)
-    setTitle(articleData.title)
-    setlikeCount(articleData.favoritesCount)
-    setTags(articleData.tagList[0])
-    setDescription(articleData.description)
-    setAuthor(articleData.author.username)
-    setDate(articleData.createdAt)
-    setContent(articleData.body)
-    setAvatar(articleData.author.image)
+    const {
+      title,
+      favoritesCount,
+      description,
+      createdAt,
+      body,
+      author: { username, image },
+    } = articleData.data.article
+    console.log(
+      title,
+      favoritesCount,
+      description,
+      createdAt,
+      body,
+      username,
+      image
+    )
+    setTitle(title)
+    setlikeCount(favoritesCount)
+    // setTags(articleData.tagList[0])
+    setDescription(description)
+    setAuthor(username)
+    setDate(createdAt)
+    setContent(body)
+    setAvatar(image)
   }
 
   return (
@@ -43,7 +60,7 @@ const Article = () => {
             <span className="article-like-count">{likeCount}</span>
           </div>
           <div className="article-tag-list">
-            <span className="article-tag-item">{tags}</span>
+            <span className="article-tag-item">Tag</span>
           </div>
           <span className="article-content">{description}</span>
         </div>

@@ -15,9 +15,9 @@ const ArticlePreview = ({
     <div className="article-list-preview">
       <div className="article-list-info">
         <div className="article-list-header">
-          {/* <Link to={`/article/${slug}`}> */}
-          <span className="article-list-title">{title}</span>
-          {/* </Link> */}
+          <Link to={`/article/${slug}`}>
+            <span className="article-list-title">{title}</span>
+          </Link>
 
           <button className="article-list-like"></button>
           <span className="article-like-count">10</span>
