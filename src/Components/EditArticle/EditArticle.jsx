@@ -2,12 +2,21 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import './EditArticle.scss'
+
 import { TagsInput } from '../TagsInput'
 
-const EditArticle = () => {
-  const { register, handleSubmit, reset, control } = useForm()
-  const [tagInput, setTagsInput] = useState([''])
-  let k = 1
+const EditArticle = ({
+  title = 'top',
+  description = 'cop',
+  text = 'lop',
+  tags = [''],
+}) => {
+  const { register, handleSubmit, reset, control } = useForm({
+    defaultValues: { title, description, text },
+  })
+  const [tagInput, setTagsInput] = useState(tags)
+  let k = 0
+
   const addTag = (e) => {
     e.preventDefault()
     setTagsInput((prevstate) => {
@@ -18,9 +27,20 @@ const EditArticle = () => {
   const editArticle = (data) => {
     console.log(data)
   }
-  // const deleteTag = (id) => {
-  //   tagInput
-  // }
+  const deleteTag = (id) => {
+    console.log(id)
+    // console.log(tagInput.findIndex((el) => tagInput.indexOf(el) + 1 === 3))
+    // const delIndex = tagInput.findIndex((el) => tagInput.indexOf(el))
+    // console.log(delIndex)
+    setTagsInput((prev) => {
+      // console.log(prev)
+      // console.log([...prev.slice(0, id)])
+      // console.log([...prev.slice(0, id + 1)])
+      // // console.log([...prev.slice(0, prev[id]), ...prev.slice(prev[id + 1])])
+      console.log([...prev.slice(0, id), ...prev.slice(id + 1)])
+      return [...prev.slice(0, id), ...prev.slice(id + 1)]
+    })
+  }
   return (
     <div className="edit-article-container">
       <h1 className="edit-article-title">Edit article</h1>
@@ -70,7 +90,8 @@ const EditArticle = () => {
               key={k++}
               addTag={addTag}
               register={register}
-              id={k++}
+              deleteTag={deleteTag}
+              id={k}
               control={control}
             />
           ))}
