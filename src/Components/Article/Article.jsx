@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useParams, Link } from 'react-router-dom'
 
 import api from '../../api'
 
 import './Article.scss'
 
 const Article = () => {
+  const authorise = useSelector((state) => state.user.isAuthorized)
+  const user = useSelector((state) => state.user.username)
+
   const { slug } = useParams()
 
   const [title, setTitle] = useState('')
@@ -16,6 +20,7 @@ const Article = () => {
   const [date, setDate] = useState('')
   const [content, setContent] = useState('')
   const [avatar, setAvatar] = useState('')
+  const [tagList, setTaglist] = useState([])
 
   useEffect(() => {
     getAritcle(slug)
@@ -30,15 +35,17 @@ const Article = () => {
       createdAt,
       body,
       author: { username, image },
+      tagList,
     } = articleData.data.article
     console.log(
-      title,
-      favoritesCount,
-      description,
-      createdAt,
-      body,
-      username,
-      image
+      // title,
+      // favoritesCount,
+      // description,
+      // createdAt,
+      // body,
+      // username,
+      // image,
+      tagList
     )
     setTitle(title)
     setlikeCount(favoritesCount)
@@ -48,6 +55,7 @@ const Article = () => {
     setDate(createdAt)
     setContent(body)
     setAvatar(image)
+    setTaglist(tagList)
   }
 
   return (
@@ -72,10 +80,21 @@ const Article = () => {
             </div>
             <img src={avatar} alt="" className="article-author-image" />
           </div>
-          <div className="article-edit">
-            <button className="delete">Delete</button>
-            <button className="edit">Edit</button>
-          </div>
+          {authorise || user === author ? (
+            <div className="article-edit">
+              <button className="delete">Delete</button>
+              <button className="edit">
+                <Link
+                  to={`editArticle/${slug}`}
+                  title={title}
+                  description={description}
+                  text={content}
+                >
+                  Edit
+                </Link>
+              </button>
+            </div>
+          ) : null}
         </div>
         <span className="article-content-all">{content}</span>
       </div>

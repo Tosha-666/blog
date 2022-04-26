@@ -7,8 +7,8 @@ import { Route, Routes } from 'react-router-dom'
 import { Layout } from '../Layout'
 import { ArticleList } from '../ArticleList'
 import { Article } from '../Article'
-import { Registration } from '../Registration'
-import { Authentification } from '../Authentification'
+import { SignUp } from '../Authentification/signUp'
+import { SignIn } from '../Authentification/SignIn'
 import { EditArticle } from '../EditArticle'
 
 const App = () => {
@@ -16,12 +16,12 @@ const App = () => {
     <div className="main">
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* <Route index element={<ArticleList />} />
-          <Route path="registration" element={<Registration />} />
-          <Route path="authentification" element={<Authentification />} />
+          <Route index element={<ArticleList />} />
+          <Route path="authentification" element={<SignUp />} />
+          <Route path="registration" element={<SignIn />} />
           <Route path="article" element={<Article />} />
-          <Route path="article/:slug" element={<Article />} /> */}
-          <Route path="/article" element={<EditArticle />} />
+          <Route path="article/:slug" element={<Article />} />
+          <Route path="editArticle" element={<EditArticle />} />
         </Route>
       </Routes>
     </div>

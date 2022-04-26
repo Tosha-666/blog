@@ -1,49 +1,49 @@
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React from 'react'
+import { useForm, useFieldArray } from 'react-hook-form'
 
 import './EditArticle.scss'
 
-import { TagsInput } from '../TagsInput'
-
 const EditArticle = ({
-  title = 'top',
-  description = 'cop',
-  text = 'lop',
-  tags = [''],
+  slug,
+  title = '',
+  description = '',
+  text = '',
+  tags = [{ tag: '' }],
 }) => {
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: { title, description, text },
+    defaultValues: { title, description, text, tags },
   })
-  const [tagInput, setTagsInput] = useState(tags)
-  let k = 0
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'tags',
+  })
 
-  const addTag = (e) => {
-    e.preventDefault()
-    setTagsInput((prevstate) => {
-      console.log(prevstate)
-      return [...prevstate, '']
-    })
-  }
+  // const addTag = (e) => {
+  //   e.preventDefault()
+  //   setTagsInput((prevstate) => {
+  //     console.log(prevstate)
+  //     return [...prevstate, '']
+  //   })
+  // }
   const editArticle = (data) => {
+    const tags = []
+    data.tags.forEach((tag) => (tag ? tags.push(tag.tag) : null))
+    console.log(tags)
     console.log(data)
+    // reset()
   }
-  const deleteTag = (id) => {
-    console.log(id)
-    // console.log(tagInput.findIndex((el) => tagInput.indexOf(el) + 1 === 3))
-    // const delIndex = tagInput.findIndex((el) => tagInput.indexOf(el))
-    // console.log(delIndex)
-    setTagsInput((prev) => {
-      // console.log(prev)
-      // console.log([...prev.slice(0, id)])
-      // console.log([...prev.slice(0, id + 1)])
-      // // console.log([...prev.slice(0, prev[id]), ...prev.slice(prev[id + 1])])
-      console.log([...prev.slice(0, id), ...prev.slice(id + 1)])
-      return [...prev.slice(0, id), ...prev.slice(id + 1)]
-    })
-  }
+  // const deleteTag = (id) => {
+  //   console.log(id)
+  //   setTagsInput((prev) => {
+  //     console.log([...prev.slice(0, id), ...prev.slice(id + 1)])
+  //     return [...prev.slice(0, id), ...prev.slice(id + 1)]
+  //   })
+  // }
   return (
     <div className="edit-article-container">
-      <h1 className="edit-article-title">Edit article</h1>
+      <h1 className="edit-article-title">
+        {slug ? 'Edit article' : 'CreateArticle'}
+      </h1>
 
       <form className="edit-article-form" onSubmit={handleSubmit(editArticle)}>
         <label className="edit-article-form-label" htmlFor="title">
@@ -76,30 +76,44 @@ const EditArticle = ({
           type="text"
           id="text"
           placeholder="Text"
-          className="edit-article-form-content"
+          className="edit-article-form-content form-area"
           {...register('text')}
         />
+        <section className="edit-article-tags-container">
+          <label className="edit-article-form-label" htmlFor="tag">
+            Tags
+          </label>
+          <ul>
+            {fields.map((item, index) => {
+              return (
+                <li key={item.id}>
+                  <input
+                    placeholder="Tag"
+                    {...register(`tags.${index}.tag`)}
+                    className="edit-article-form-content edit-article-form-tag"
+                  />
 
-        <label className="edit-article-form-label" htmlFor="tag">
-          Tags
-        </label>
-        <div>
-          {tagInput.map((tag) => (
-            <TagsInput
-              tagInner={tag}
-              key={k++}
-              addTag={addTag}
-              register={register}
-              deleteTag={deleteTag}
-              id={k}
-              control={control}
-            />
-          ))}
-          <button className="edit-article-tags-add" onClick={addTag}>
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="edit-article-tags-delete"
+                  >
+                    Delete
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+          <button
+            type="button"
+            className="edit-article-tags-add"
+            onClick={() => {
+              append({ tag: '' })
+            }}
+          >
             Add Tag
           </button>
-        </div>
-
+        </section>
         <input type="submit" className="edit-article-form-send" value="Send" />
       </form>
     </div>

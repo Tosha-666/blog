@@ -98,7 +98,7 @@
         &:checked + .checkbox-label::before {
           border-color: #1890FF;
           background-color: #1890FF;
-          background-image: url('../../images/check.svg');
+          background-image: url('../../../images/check.svg');
         }
 
         &:not(:disabled):not(:checked) + label:hover::before {

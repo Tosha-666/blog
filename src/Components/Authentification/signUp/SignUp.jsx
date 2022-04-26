@@ -1,15 +1,15 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
-import './Registration.scss'
+import './SignUp.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { setUser } from '../store/userSlice'
-import api from '../../api'
+import { setUser } from '../../store/userSlice'
+import api from '../../../api'
 
-const Registration = () => {
+const SignUp = () => {
   const dispatch = useDispatch()
   const schema = yup
     .object({
@@ -175,4 +175,4 @@ const Registration = () => {
   )
 }
 
-export default Registration
+export default SignUp

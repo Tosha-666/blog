@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 
 import './Layout.scss'
 import avatar from '../../images/user-avatar.svg'
@@ -17,7 +17,9 @@ const Layout = () => {
 
         {authorise && (
           <div className="registered">
-            <button className="create">Create article</button>
+            <button className="create">
+              <Link to="editArticle">Create article</Link>
+            </button>
             <div className="person-info">
               <span className="person-name">John Dow</span>
               <img src={avatar} alt="" className="person-avatar" />

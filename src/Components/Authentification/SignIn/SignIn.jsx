@@ -1,15 +1,15 @@
 import React from 'react'
-import './Authentification.scss'
+import './SignIn.scss'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { setUser } from '../store/userSlice'
-import api from '../../api'
+import { setUser } from '../../store/userSlice'
+import api from '../../../api'
 
-const Authentification = () => {
+const SignIn = () => {
   const dispatch = useDispatch()
   const schema = yup.object({
     emailAddress: yup
@@ -100,4 +100,4 @@ const Authentification = () => {
   )
 }
 
-export default Authentification
+export default SignIn
