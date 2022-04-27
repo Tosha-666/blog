@@ -1,5 +1,8 @@
 import React from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+
+import api from '../../api'
 
 import './EditArticle.scss'
 
@@ -8,15 +11,17 @@ const EditArticle = ({
   title = '',
   description = '',
   text = '',
-  tags = [{ tag: '' }],
+  tagList = [{ tag: '' }],
 }) => {
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: { title, description, text, tags },
+    defaultValues: { title, description, text, tagList },
   })
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tags',
+    name: 'tagList',
   })
+
+  const token = useSelector((state) => state.user.token)
 
   // const addTag = (e) => {
   //   e.preventDefault()
@@ -25,11 +30,30 @@ const EditArticle = ({
   //     return [...prevstate, '']
   //   })
   // }
+  const create = async (formatData) => {
+    console.log(token)
+    const articleData = await api.post('api/articles', {
+      headers: { Authorization: token },
+      params: {
+        'article': { ...formatData },
+      },
+    })
+    console.log(articleData)
+  }
   const editArticle = (data) => {
     const tags = []
-    data.tags.forEach((tag) => (tag ? tags.push(tag.tag) : null))
-    console.log(tags)
     console.log(data)
+    data.tagList.forEach((el) => {
+      if (el) {
+        console.log(el)
+        tags.push(el.tag)
+      }
+    })
+    console.log(tagList)
+    const article = { ...data, tagList: tags }
+    console.log(article)
+    create(article)
+
     // reset()
   }
   // const deleteTag = (id) => {
@@ -89,7 +113,7 @@ const EditArticle = ({
                 <li key={item.id}>
                   <input
                     placeholder="Tag"
-                    {...register(`tags.${index}.tag`)}
+                    {...register(`tagList.${index}.tag`)}
                     className="edit-article-form-content edit-article-form-tag"
                   />
 

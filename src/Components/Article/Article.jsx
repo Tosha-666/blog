@@ -80,7 +80,7 @@ const Article = () => {
             </div>
             <img src={avatar} alt="" className="article-author-image" />
           </div>
-          {authorise || user === author ? (
+          {authorise && user === author ? (
             <div className="article-edit">
               <button className="delete">Delete</button>
               <button className="edit">

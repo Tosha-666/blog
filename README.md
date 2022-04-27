@@ -112,3 +112,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
     },
     "request": {}
 } -->
+<!-- {
+  "user": {
+    "email": "test321@mail.ru",
+    "username": "territory123",
+    "bio": null,
+    "image": "https://api.realworld.io/images/smiley-cyrus.jpeg",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QzMjFAbWFpbC5ydSIsInVzZXJuYW1lIjoidGVycml0b3J5MTIzIiwiaWF0IjoxNjUxMDY1MjA1LCJleHAiOjE2NTYyNDkyMDV9.98_MY4lfkCCS8gYr8axM75U_g9acdM0Nnv6JvtpoMcI"
+  }
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QzMjFAbWFpbC5ydSIsInVzZXJuYW1lIjoidGVycml0b3J5MTIzIiwiaWF0IjoxNjUxMDY1NDEzLCJleHAiOjE2NTYyNDk0MTN9.Gk7x5hldPy_KXt23jqhq0uAit8cnKg6CdyTUC77rMLU"
+} -->
