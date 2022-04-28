@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 import api from '../../api'
 
@@ -32,24 +33,48 @@ const EditArticle = ({
   // }
   const create = async (formatData) => {
     console.log(token)
-    const articleData = await api.post('api/articles', {
-      headers: { Authorization: token },
-      params: {
-        'article': { ...formatData },
+    console.log(
+      formatData.title
+      // formatData.description,
+      // formatData.text,
+      // formatData.tagList
+    )
+    const articleData = await axios({
+      method: 'post',
+      url: 'https://api.realworld.io/api/articles',
+      headers: {
+        'Authorization':
+          'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdlbm5hZGlqLm1pbmFrb2ZmZkB5YW5kZXgucnUiLCJ1c2VybmFtZSI6ImZlZG9yYV90dXRjaGV2YV8xMDMiLCJpYXQiOjE2NTExNDUyNzEsImV4cCI6MTY1NjMyOTI3MX0.IkH6ITnaXmNMHDYX-SyGDdO_x0mOy2FBspJ_ukuKDqg',
+      },
+      data: {
+        article: {
+          'title': formatData.title,
+          'description': formatData.description,
+          'body': formatData.text,
+          'tagList': formatData.tagList,
+        },
       },
     })
+    // await api.post('api/articles', {
+    //   params: {
+    //     'article': { ...formatData },
+    //   },
+    //   headers: {
+    //     'Authorization':
+    //       'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdlbm5hZGlqLm1pbmFrb2ZmZkB5YW5kZXgucnUiLCJ1c2VybmFtZSI6ImZlZG9yYV90dXRjaGV2YV8xMDMiLCJpYXQiOjE2NTExNDUyNzEsImV4cCI6MTY1NjMyOTI3MX0.IkH6ITnaXmNMHDYX-SyGDdO_x0mOy2FBspJ_ukuKDqg',
+    //   },
+    // })
     console.log(articleData)
   }
   const editArticle = (data) => {
     const tags = []
-    console.log(data)
+    // console.log(data)
     data.tagList.forEach((el) => {
       if (el) {
         console.log(el)
         tags.push(el.tag)
       }
     })
-    console.log(tagList)
     const article = { ...data, tagList: tags }
     console.log(article)
     create(article)
