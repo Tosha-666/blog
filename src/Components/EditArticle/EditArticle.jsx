@@ -33,12 +33,7 @@ const EditArticle = ({
   // }
   const create = async (formatData) => {
     console.log(token)
-    console.log(
-      formatData.title
-      // formatData.description,
-      // formatData.text,
-      // formatData.tagList
-    )
+
     const articleData = await axios({
       method: 'post',
       url: 'https://api.realworld.io/api/articles',
@@ -48,10 +43,7 @@ const EditArticle = ({
       },
       data: {
         article: {
-          'title': formatData.title,
-          'description': formatData.description,
-          'body': formatData.text,
-          'tagList': formatData.tagList,
+          ...formatData,
         },
       },
     })
@@ -126,7 +118,7 @@ const EditArticle = ({
           id="text"
           placeholder="Text"
           className="edit-article-form-content form-area"
-          {...register('text')}
+          {...register('body')}
         />
         <section className="edit-article-tags-container">
           <label className="edit-article-form-label" htmlFor="tag">

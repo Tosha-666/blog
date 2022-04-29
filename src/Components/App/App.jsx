@@ -10,6 +10,8 @@ import { Article } from '../Article'
 import { SignUp } from '../Authentification/signUp'
 import { SignIn } from '../Authentification/SignIn'
 import { EditArticle } from '../EditArticle'
+import { CreateArticle } from '../ChangeArticle/CreateArticle'
+import RequireAuth from '../hoc/RequireAuth'
 
 const App = () => {
   return (
@@ -21,7 +23,23 @@ const App = () => {
           <Route path="registration" element={<SignIn />} />
           <Route path="article" element={<Article />} />
           <Route path="article/:slug" element={<Article />} />
-          <Route path="editArticle" element={<EditArticle />} />
+          <Route
+            path="article/create"
+            element={
+              <RequireAuth>
+                <CreateArticle />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="article/:slug/edit"
+            element={
+              <RequireAuth>
+                <EditArticle />
+              </RequireAuth>
+            }
+          />
+          <Route path="createArticle" element={<EditArticle />} />
         </Route>
       </Routes>
     </div>

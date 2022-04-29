@@ -24,6 +24,7 @@ const Layout = () => {
               <span className="person-name">John Dow</span>
               <img src={avatar} alt="" className="person-avatar" />
             </div>
+            <button className="log-out">Log out</button>
           </div>
         )}
         {!authorise && (

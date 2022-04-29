@@ -42,6 +42,29 @@
             cursor: pointer;
             margin-right: 26px;
         }
+        .log-out{
+            width: 109px;
+            height: 51px;
+            margin-left: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 22px;
+            letter-spacing: 0px;
+            color: #000000BF;
+            background-color: #ffffff;
+            border: 1px solid #000000BF;
+            ;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            a{
+                color:  #000000BF;
+            }
+        }
         .person-info{
             display: flex;
             justify-content: space-between;
