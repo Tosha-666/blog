@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 
 const NewArticleForm = ({
   title = '',
@@ -15,6 +16,7 @@ const NewArticleForm = ({
     control,
     name: 'tagList',
   })
+  const token = useSelector((state) => state.user.token)
   //   const create = async (formatData) => {
   //     const articleData = await axios({
   //       method: 'post',
@@ -43,7 +45,7 @@ const NewArticleForm = ({
     })
     const article = { ...data, tagList: tags }
     console.log(article)
-    sendChanges(article)
+    sendChanges(article, token)
     reset()
   }
   return (

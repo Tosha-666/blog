@@ -18,7 +18,7 @@ const Layout = () => {
         {authorise && (
           <div className="registered">
             <button className="create">
-              <Link to="editArticle">Create article</Link>
+              <Link to="article/create">Create article</Link>
             </button>
             <div className="person-info">
               <span className="person-name">John Dow</span>

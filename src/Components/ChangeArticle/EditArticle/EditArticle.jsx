@@ -1,6 +1,6 @@
 import React from 'react'
 
-import NewArticleForm from '../NewArticleForm'
+import { NewArticleForm } from '../NewArticleForm'
 import { create } from '../../../api'
 
 const EditArticle = () => {

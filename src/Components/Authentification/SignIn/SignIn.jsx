@@ -1,15 +1,19 @@
 import React from 'react'
 import './SignIn.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { setUser } from '../../store/userSlice'
 import api from '../../../api'
 
 const SignIn = () => {
+  const isAuth = useSelector((state) => state.user.isAuthorized)
+
+  const navigate = useNavigate()
+
   const dispatch = useDispatch()
   const schema = yup.object({
     emailAddress: yup
@@ -40,7 +44,8 @@ const SignIn = () => {
     })
     console.log(regData)
     dispatch(setUser(regData.data.user))
-
+    console.log(isAuth)
+    navigate('/')
     reset()
   }
   return (
