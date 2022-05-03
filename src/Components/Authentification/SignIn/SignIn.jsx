@@ -36,7 +36,7 @@ const SignIn = () => {
 
   const registrationUser = async (registrationData) => {
     console.log(registrationData)
-    const regData = await api.post('api/users/login', {
+    const regData = await api.post('users/login', {
       user: {
         email: registrationData.emailAddress,
         password: registrationData.password,

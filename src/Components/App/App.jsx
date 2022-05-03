@@ -9,7 +9,7 @@ import { ArticleList } from '../ArticleList'
 import { Article } from '../Article'
 import { SignUp } from '../Authentification/signUp'
 import { SignIn } from '../Authentification/SignIn'
-import { EditArticle } from '../EditArticle'
+import { EditArticle } from '../ChangeArticle/EditArticle'
 import { CreateArticle } from '../ChangeArticle/CreateArticle'
 import RequireAuth from '../hoc/RequireAuth'
 
@@ -32,7 +32,7 @@ const App = () => {
             }
           />
           <Route
-            path="article/:slug/edit"
+            path="/article/:slug/edit"
             element={
               <RequireAuth>
                 <EditArticle />

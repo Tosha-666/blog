@@ -3,6 +3,8 @@ import React from 'react'
 import { NewArticleForm } from '../NewArticleForm'
 import { create } from '../../../api'
 
+import './CreateArticle.scss'
+
 const CreateArticle = () => {
   return (
     <div className="edit-article-container">

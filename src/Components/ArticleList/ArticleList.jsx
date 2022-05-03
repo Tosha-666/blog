@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 import './ArticleList.scss'
 import api from '../../api'
 import { ArticlePreview } from '../ArticlePreview'
 
 const ArticleList = () => {
+  const token = useSelector((state) => state.user.token)
   const [articleList, setArticleList] = useState([])
 
   useEffect(() => {
@@ -12,9 +14,12 @@ const ArticleList = () => {
   }, [])
 
   const getArticles = async () => {
-    const articles = await api.get('api/articles', {
+    const articles = await api.get('articles', {
+      headers: {
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
       params: {
-        limit: 20,
+        limit: 10,
         offset: 0,
       },
     })

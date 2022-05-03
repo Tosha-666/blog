@@ -1,22 +1,45 @@
 import React from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import './NewArticleForm.scss'
 
 const NewArticleForm = ({
   title = '',
   description = '',
   text = '',
-  tagList = [{ tag: '' }],
+  tagList = [''],
   sendChanges,
 }) => {
+  const arrOfTags = []
+
+  for (let i = 0; i < tagList.length; i++) {
+    let tagObject = {
+      tag: tagList[i],
+    }
+    arrOfTags.push(tagObject)
+  }
+
+  console.log(arrOfTags)
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: { title, description, text, tagList },
+    defaultValues: { tags: arrOfTags },
   })
+  //   {
+  //   title,
+  //   description,
+  //   text,
+  //   tagList,
+  // }
+
+  console.log(tagList)
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tagList',
+    name: 'tags',
   })
+
   const token = useSelector((state) => state.user.token)
+
+  const navigate = useNavigate()
   //   const create = async (formatData) => {
   //     const articleData = await axios({
   //       method: 'post',
@@ -34,7 +57,7 @@ const NewArticleForm = ({
 
   //     console.log(articleData)
   //   }
-  const editArticle = (data) => {
+  const editArticle = async (data) => {
     const tags = []
 
     data.tagList.forEach((el) => {
@@ -45,7 +68,8 @@ const NewArticleForm = ({
     })
     const article = { ...data, tagList: tags }
     console.log(article)
-    sendChanges(article, token)
+    await sendChanges(article, token)
+    navigate('/')
     reset()
   }
   return (
@@ -58,6 +82,7 @@ const NewArticleForm = ({
         name="title"
         id="title"
         placeholder="Title"
+        defaultValue={title}
         {...register('title')}
         className="edit-article-form-content"
       />
@@ -69,6 +94,7 @@ const NewArticleForm = ({
         name="description"
         id="description"
         placeholder="Title"
+        defaultValue={description}
         {...register('description')}
         className="edit-article-form-content"
       />
@@ -80,6 +106,7 @@ const NewArticleForm = ({
         type="text"
         id="text"
         placeholder="Text"
+        defaultValue={text}
         className="edit-article-form-content form-area"
         {...register('body')}
       />
@@ -93,7 +120,7 @@ const NewArticleForm = ({
               <li key={item.id}>
                 <input
                   placeholder="Tag"
-                  {...register(`tagList.${index}.tag`)}
+                  {...register(`tags.${index}.tag`)}
                   className="edit-article-form-content edit-article-form-tag"
                 />
 

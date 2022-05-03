@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-  baseURL: 'https://api.realworld.io/',
+  baseURL: 'https://api.realworld.io/api/',
 })
 const create = async (data, token) => {
   const articleData = await axios({
@@ -16,6 +16,7 @@ const create = async (data, token) => {
       },
     },
   })
+
   return articleData
 }
 
@@ -34,6 +35,19 @@ const edit = async (data, token) => {
   })
   return articleData
 }
-export { create, edit }
+
+const getArticle = async (slug, token) => {
+  const articleData = await axios({
+    method: 'get',
+    url: `https://api.realworld.io/api/articles/${slug}`,
+    headers: {
+      ...(token ? { 'Authorization': `Token ${token}` } : {}),
+    },
+  })
+  return articleData.data.article
+}
+
+export { create, edit, getArticle }
 // https://api.realworld.io/
 // http://kata.academy:8022/
+// https://conduit.productionready.io/api/

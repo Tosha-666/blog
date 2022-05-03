@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 
-import api from '../../api'
+import { getArticle } from '../../api'
 
 import './Article.scss'
 
 const Article = () => {
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
+  const token = useSelector((state) => state.user.token)
 
   const { slug } = useParams()
 
@@ -22,12 +23,8 @@ const Article = () => {
   const [avatar, setAvatar] = useState('')
   const [tagList, setTaglist] = useState([])
 
-  useEffect(() => {
-    getAritcle(slug)
-  }, [])
-  const getAritcle = async (slug) => {
-    const articleData = await api.get(`api/articles/${slug}`)
-    console.log(articleData)
+  useEffect(async () => {
+    console.log(await getArticle(slug, token))
     const {
       title,
       favoritesCount,
@@ -36,17 +33,8 @@ const Article = () => {
       body,
       author: { username, image },
       tagList,
-    } = articleData.data.article
-    console.log(
-      // title,
-      // favoritesCount,
-      // description,
-      // createdAt,
-      // body,
-      // username,
-      // image,
-      tagList
-    )
+    } = await getArticle(slug, token)
+
     setTitle(title)
     setlikeCount(favoritesCount)
     // setTags(articleData.tagList[0])
@@ -56,7 +44,40 @@ const Article = () => {
     setContent(body)
     setAvatar(image)
     setTaglist(tagList)
-  }
+  }, [])
+
+  // const getAritcle = async (slug) => {
+  //   const articleData = await api.get(`articles/${slug}`)
+  //   console.log(articleData)
+  //   const {
+  //     title,
+  //     favoritesCount,
+  //     description,
+  //     createdAt,
+  //     body,
+  //     author: { username, image },
+  //     tagList,
+  //   } = articleData.data.article
+  //   console.log(
+  //     // title,
+  //     // favoritesCount,
+  //     // description,
+  //     // createdAt,
+  //     // body,
+  //     // username,
+  //     // image,
+  //     tagList
+  //   )
+  //   setTitle(title)
+  //   setlikeCount(favoritesCount)
+  //   // setTags(articleData.tagList[0])
+  //   setDescription(description)
+  //   setAuthor(username)
+  //   setDate(createdAt)
+  //   setContent(body)
+  //   setAvatar(image)
+  //   setTaglist(tagList)
+  // }
 
   return (
     <div className="article-container">
@@ -85,7 +106,7 @@ const Article = () => {
               <button className="delete">Delete</button>
               <button className="edit">
                 <Link
-                  to={`editArticle/${slug}`}
+                  to={`/article/${slug}/edit`}
                   title={title}
                   description={description}
                   text={content}
