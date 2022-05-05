@@ -20,10 +20,10 @@ const create = async (data, token) => {
   return articleData
 }
 
-const edit = async (data, token) => {
+const edit = async (data, token, slug) => {
   const articleData = await axios({
     method: 'put',
-    url: 'https://api.realworld.io/api/articles',
+    url: `https://api.realworld.io/api/articles/${slug}`,
     headers: {
       'Authorization': `Token ${token}`,
     },

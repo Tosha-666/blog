@@ -22,7 +22,9 @@ const Layout = () => {
             </button>
             <div className="person-info">
               <span className="person-name">John Dow</span>
-              <img src={avatar} alt="" className="person-avatar" />
+              <Link to="editProfile">
+                <img src={avatar} alt="" className="person-avatar" />
+              </Link>
             </div>
             <button className="log-out">Log out</button>
           </div>

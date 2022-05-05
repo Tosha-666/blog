@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './SignUp.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
@@ -11,8 +11,6 @@ import api from '../../../api'
 
 const SignUp = () => {
   const dispatch = useDispatch()
-
-  const isAuth = useSelector((state) => state.user.isAuthorized)
 
   const navigate = useNavigate()
   const schema = yup

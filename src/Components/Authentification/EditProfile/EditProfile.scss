@@ -1,0 +1,85 @@
+.edit-profile-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 385px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFFFFF;
+    padding: 48px 32px;
+    margin-top: 60px;
+    border-radius: 6px;
+    // box-sizing: border-box;
+    
+    .edit-profile-title{
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
+        letter-spacing: 0em;
+        text-align: center;
+        margin-bottom: 9px;
+    }
+    .edit-profile-form{
+    display: flex;
+    flex-direction: column;
+    border-bottom: #D9D9D9;
+    .edit-profile-label{
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        text-align: left;
+        margin-bottom: 2px;
+        margin-top: 12px;
+    }
+    .edit-profile-input{
+        height: 40px;
+        width: 320px;
+        left: 0px;
+        top: 0px;
+        border-radius: 4px;
+        border: 1px solid #D9D9D9;
+        padding: 8px 12px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000BF;
+    }
+    .is-invalid{
+      border: 1px solid #F5222D
+    }
+    .registration-error{
+      margin: 2px;
+      p{
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #F5222D;
+      }
+    }
+      .edit-profile-send-form{
+        width: 320px;
+        height: 40px;
+        background-color: #1890FF;
+        border-radius: 4px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #FFFFFF;
+        margin-top: 21px;
+      }
+
+    }
+}
+

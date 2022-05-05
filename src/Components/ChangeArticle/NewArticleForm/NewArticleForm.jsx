@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -7,31 +7,43 @@ import './NewArticleForm.scss'
 const NewArticleForm = ({
   title = '',
   description = '',
-  text = '',
+  content = '',
   tagList = [''],
   sendChanges,
+  slug,
 }) => {
   const arrOfTags = []
+  useEffect(() => {
+    reset({ title, description, body: content, tags: arrOfTags })
+  }, [title, description, content, tagList])
+  tagList && tagList.map((tagItem) => arrOfTags.push({ tag: tagItem })),
+    // tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
 
-  for (let i = 0; i < tagList.length; i++) {
-    let tagObject = {
-      tag: tagList[i],
-    }
-    arrOfTags.push(tagObject)
-  }
-
-  console.log(arrOfTags)
+    // for (let i = 0; i < tagList.length; i++) {
+    //   let tagObject = {
+    //     tag: tagList[i],
+    //   }
+    //   arrOfTags.push(tagObject)
+    // }
+    console.log(tagList)
+  console.log(title, description, content, arrOfTags)
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: { tags: arrOfTags },
+    defaultValues: useMemo(
+      () => {
+        return {
+          tags: arrOfTags,
+          title: title,
+          description: description,
+          body: content,
+        }
+      },
+      content,
+      title,
+      description,
+      arrOfTags
+    ),
   })
-  //   {
-  //   title,
-  //   description,
-  //   text,
-  //   tagList,
-  // }
 
-  console.log(tagList)
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tags',
@@ -59,8 +71,8 @@ const NewArticleForm = ({
   //   }
   const editArticle = async (data) => {
     const tags = []
-
-    data.tagList.forEach((el) => {
+    console.log(data)
+    data.tags.forEach((el) => {
       if (el) {
         console.log(el)
         tags.push(el.tag)
@@ -68,7 +80,7 @@ const NewArticleForm = ({
     })
     const article = { ...data, tagList: tags }
     console.log(article)
-    await sendChanges(article, token)
+    await sendChanges(article, token, slug)
     navigate('/')
     reset()
   }
@@ -82,7 +94,7 @@ const NewArticleForm = ({
         name="title"
         id="title"
         placeholder="Title"
-        defaultValue={title}
+        // defaultValue={title}
         {...register('title')}
         className="edit-article-form-content"
       />
@@ -94,7 +106,7 @@ const NewArticleForm = ({
         name="description"
         id="description"
         placeholder="Title"
-        defaultValue={description}
+        // defaultValue={description}
         {...register('description')}
         className="edit-article-form-content"
       />
@@ -106,7 +118,7 @@ const NewArticleForm = ({
         type="text"
         id="text"
         placeholder="Text"
-        defaultValue={text}
+        // defaultValue={text}
         className="edit-article-form-content form-area"
         {...register('body')}
       />

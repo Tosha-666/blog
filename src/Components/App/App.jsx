@@ -11,6 +11,7 @@ import { SignUp } from '../Authentification/signUp'
 import { SignIn } from '../Authentification/SignIn'
 import { EditArticle } from '../ChangeArticle/EditArticle'
 import { CreateArticle } from '../ChangeArticle/CreateArticle'
+import { EditProfile } from '../Authentification/EditProfile'
 import RequireAuth from '../hoc/RequireAuth'
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<ArticleList />} />
           <Route path="authentification" element={<SignUp />} />
+          <Route path="editProfile" element={<EditProfile />} />
           <Route path="registration" element={<SignIn />} />
           <Route path="article" element={<Article />} />
           <Route path="article/:slug" element={<Article />} />
