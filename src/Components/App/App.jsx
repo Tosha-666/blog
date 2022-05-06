@@ -21,7 +21,14 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<ArticleList />} />
           <Route path="authentification" element={<SignUp />} />
-          <Route path="editProfile" element={<EditProfile />} />
+          <Route
+            path="editProfile"
+            element={
+              <RequireAuth>
+                <EditProfile />
+              </RequireAuth>
+            }
+          />
           <Route path="registration" element={<SignIn />} />
           <Route path="article" element={<Article />} />
           <Route path="article/:slug" element={<Article />} />
@@ -41,7 +48,7 @@ const App = () => {
               </RequireAuth>
             }
           />
-          <Route path="createArticle" element={<EditArticle />} />
+          {/* <Route path="createArticle" element={<EditArticle />} /> */}
         </Route>
       </Routes>
     </div>

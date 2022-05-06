@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -28,20 +28,14 @@ const NewArticleForm = ({
     console.log(tagList)
   console.log(title, description, content, arrOfTags)
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: useMemo(
-      () => {
-        return {
-          tags: arrOfTags,
-          title: title,
-          description: description,
-          body: content,
-        }
-      },
-      content,
-      title,
-      description,
-      arrOfTags
-    ),
+    defaultValues: () => {
+      return {
+        tags: arrOfTags,
+        title: title,
+        description: description,
+        body: content,
+      }
+    },
   })
 
   const { fields, append, remove } = useFieldArray({

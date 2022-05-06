@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { setUser } from '../../store/userSlice'
-import api from '../../../api'
+import { api } from '../../../api'
 
 const SignIn = () => {
   const isAuth = useSelector((state) => state.user.isAuthorized)

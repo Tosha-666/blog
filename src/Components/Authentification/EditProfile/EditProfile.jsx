@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './EditProfile.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -6,56 +6,64 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { editProfileData, getUserData } from '../../../api'
 import { setUser } from '../../store/userSlice'
-import api from '../../../api'
 
 const EditProfile = () => {
-  const isAuth = useSelector((state) => state.user.isAuthorized)
-
+  const token = useSelector((state) => state.user.token)
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+
+  const [userData, setUserData] = useState({})
+  useEffect(async () => {
+    console.log(await getUserData(token))
+    const { username, email, image } = await getUserData(token)
+    setUserData({ username, email, image })
+  }, [])
+  useEffect(() => {
+    reset({
+      username: userData.username,
+      email: userData.email,
+      image: userData.image,
+      password: '',
+    })
+  }, [userData])
+
   const schema = yup.object({
-    userName: yup
+    username: yup
       .string()
-      .required('Username is required')
+      .required()
       .min(3, 'Your username needs to be at least 3 characters')
       .max(20, 'Your username needs to be not more 20 characters'),
-    emailAddress: yup
+    email: yup
       .string()
       .matches(/^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i, 'Enter valid email')
       .min(3, 'must be at least 3 characters long')
       .email('must be a valid email'),
     password: yup
       .string()
-      .required('Password is required')
       .min(6, 'Your password needs to be at least 6 characters')
       .max(40, 'Your password needs to be not more 40 characters'),
-    avatarImage: yup.string().url().nullable(),
+    image: yup.string().url().nullable(),
   })
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
     getValues,
-  } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
-
+  } = useForm({ mode: 'onChange', resolver: yupResolver(schema) })
   console.log(getValues())
 
-  const registrationUser = async (registrationData) => {
-    console.log(registrationData)
-    const regData = await api.post('users/login', {
-      user: {
-        email: registrationData.emailAddress,
-        password: registrationData.password,
-      },
-    })
-    console.log(regData)
-    dispatch(setUser(regData.data.user))
-    console.log(isAuth)
+  // console.log(getValues())
+
+  const submiteUserdata = async (data) => {
+    const updatedData = await editProfileData(data, token)
+    dispatch(setUser(updatedData.data.user))
     navigate('/')
-    reset()
+    console.log(updatedData)
   }
   return (
     <div className="edit-profile-container">
@@ -64,20 +72,20 @@ const EditProfile = () => {
         action="#"
         method="post"
         className="edit-profile-form"
-        onSubmit={handleSubmit(registrationUser)}
+        onSubmit={handleSubmit(submiteUserdata)}
       >
         <label htmlFor="UserName" className="edit-profile-label">
           Username
         </label>
         <input
           type="text"
-          name="Username"
           id="UserName"
+          autoComplete="off"
           className={`edit-profile-input ${
             errors.userName ? 'is-invalid' : ''
           }`}
           placeholder="Username"
-          {...register('userName')}
+          {...register('username')}
         />
 
         <label htmlFor="EmailAdress" className="edit-profile-label">
@@ -85,13 +93,12 @@ const EditProfile = () => {
         </label>
         <input
           type="email"
-          name="EmailAdress"
           id="EmailAdress"
           className={`edit-profile-input ${
             errors.emailAddress ? 'is-invalid' : ''
           }`}
           placeholder="Email Address"
-          {...register('emailAddress')}
+          {...register('email')}
         />
         <div className="registration-error">
           {' '}
@@ -103,7 +110,6 @@ const EditProfile = () => {
         </label>
         <input
           type="password"
-          name="Password"
           id="Password"
           placeholder="Password"
           className={`edit-profile-input ${
@@ -123,10 +129,8 @@ const EditProfile = () => {
           name="avatarImage"
           id="avatarImage"
           placeholder="Avatar image"
-          className={`edit-profile-input ${
-            errors.password ? 'is-invalid' : ''
-          }`}
-          {...register('avatarImage')}
+          className={`edit-profile-input ${errors.image ? 'is-invalid' : ''}`}
+          {...register('image')}
         />
         <input type="submit" className="edit-profile-send-form" value="Save" />
       </form>

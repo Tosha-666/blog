@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import './ArticleList.scss'
-import api from '../../api'
+import { api } from '../../api'
 import { ArticlePreview } from '../ArticlePreview'
 
 const ArticleList = () => {
@@ -24,7 +24,7 @@ const ArticleList = () => {
       },
     })
     if (articles.status === 200) {
-      console.log(articles.data.articles)
+      console.log(articles)
       setArticleList(articles.data.articles)
     }
   }
