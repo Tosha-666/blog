@@ -17,13 +17,16 @@ const userSlice = createSlice({
       state.image = action.payload.image
       state.isAuthorized = !!action.payload.token
       console.log(action.payload)
+      console.log(state)
     },
 
     removeUser(state) {
+      console.log(state)
       state.username = null
       state.email = null
       state.token = null
       state.image = null
+      console.log(state)
     },
   },
 })

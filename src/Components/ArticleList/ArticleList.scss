@@ -104,3 +104,14 @@
             
 //         }
 //     }
+.article-preview-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .pagination{
+    margin-top: 27px;
+    width: fit-content;
+
+}
+}
+

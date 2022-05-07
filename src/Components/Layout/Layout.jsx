@@ -1,12 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
+import { removeUser } from '../store/userSlice'
 import './Layout.scss'
 import avatar from '../../images/user-avatar.svg'
 
 const Layout = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const authorise = useSelector((state) => state.user.isAuthorized)
+  const logOut = () => {
+    dispatch(removeUser())
+    navigate('/')
+  }
   return (
     <React.Fragment>
       <header className="header">
@@ -26,7 +33,9 @@ const Layout = () => {
                 <img src={avatar} alt="" className="person-avatar" />
               </Link>
             </div>
-            <button className="log-out">Log out</button>
+            <button className="log-out" onClick={() => logOut()}>
+              Log out
+            </button>
           </div>
         )}
         {!authorise && (
