@@ -95,6 +95,17 @@ const getUserData = async (token) => {
   return dataUser.data.user
 }
 
+const registerNewUser = async (data) => {
+  console.log(data)
+  const regData = await api.post('users', {
+    user: {
+      username: data.userName,
+      email: data.emailAddress,
+      password: data.password,
+    },
+  })
+  return regData
+}
 export {
   create,
   edit,
@@ -103,6 +114,7 @@ export {
   api,
   getUserData,
   getArticles,
+  registerNewUser,
 }
 // https://api.realworld.io/
 // http://kata.academy:8022/

@@ -9,6 +9,7 @@ import { ArticlePreview } from '../ArticlePreview'
 
 const ArticleList = () => {
   const token = useSelector((state) => state.user.token)
+  const isAuth = useSelector((state) => state.user.isAuthorized)
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
   const [totalArticles, setTotalArticles] = useState(0)
@@ -28,7 +29,7 @@ const ArticleList = () => {
 
     setPosts(articles)
     console.log(posts.length)
-  }, [page])
+  }, [page, isAuth])
 
   // const getArticles = async () => {
   //   const articles = await api.get('articles', {

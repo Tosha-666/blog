@@ -4,16 +4,19 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 import { removeUser } from '../store/userSlice'
 import './Layout.scss'
-import avatar from '../../images/user-avatar.svg'
 
 const Layout = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const authorise = useSelector((state) => state.user.isAuthorized)
+  const userName = useSelector((state) => state.user.username)
+  const avatar = useSelector((state) => state.user.image)
+
   const logOut = () => {
     dispatch(removeUser())
     navigate('/')
   }
+
   return (
     <React.Fragment>
       <header className="header">
@@ -28,7 +31,7 @@ const Layout = () => {
               <Link to="article/create">Create article</Link>
             </button>
             <div className="person-info">
-              <span className="person-name">John Dow</span>
+              <span className="person-name">{userName}</span>
               <Link to="editProfile">
                 <img src={avatar} alt="" className="person-avatar" />
               </Link>

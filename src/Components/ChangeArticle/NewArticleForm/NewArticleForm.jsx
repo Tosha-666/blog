@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import './NewArticleForm.scss'
 
 const NewArticleForm = ({
@@ -17,25 +19,24 @@ const NewArticleForm = ({
     reset({ title, description, body: content, tags: arrOfTags })
   }, [title, description, content, tagList])
   tagList && tagList.map((tagItem) => arrOfTags.push({ tag: tagItem })),
-    // tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
-
-    // for (let i = 0; i < tagList.length; i++) {
-    //   let tagObject = {
-    //     tag: tagList[i],
-    //   }
-    //   arrOfTags.push(tagObject)
-    // }
     console.log(tagList)
-  console.log(title, description, content, arrOfTags)
+
+  const schema = yup.object({
+    title: yup.string().required('This field is required'),
+    description: yup.string().required('This field is required'),
+    body: yup.string().required('This field is required'),
+  })
   const { register, handleSubmit, reset, control } = useForm({
-    defaultValues: () => {
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+    defaultValues: useMemo(() => {
       return {
         tags: arrOfTags,
         title: title,
         description: description,
         body: content,
       }
-    },
+    }),
   })
 
   const { fields, append, remove } = useFieldArray({
@@ -46,23 +47,7 @@ const NewArticleForm = ({
   const token = useSelector((state) => state.user.token)
 
   const navigate = useNavigate()
-  //   const create = async (formatData) => {
-  //     const articleData = await axios({
-  //       method: 'post',
-  //       url: 'https://api.realworld.io/api/articles',
-  //       headers: {
-  //         'Authorization':
-  //           'Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdlbm5hZGlqLm1pbmFrb2ZmZkB5YW5kZXgucnUiLCJ1c2VybmFtZSI6ImZlZG9yYV90dXRjaGV2YV8xMDMiLCJpYXQiOjE2NTExNDUyNzEsImV4cCI6MTY1NjMyOTI3MX0.IkH6ITnaXmNMHDYX-SyGDdO_x0mOy2FBspJ_ukuKDqg',
-  //       },
-  //       data: {
-  //         article: {
-  //           ...formatData,
-  //         },
-  //       },
-  //     })
 
-  //     console.log(articleData)
-  //   }
   const editArticle = async (data) => {
     const tags = []
     console.log(data)
@@ -88,7 +73,6 @@ const NewArticleForm = ({
         name="title"
         id="title"
         placeholder="Title"
-        // defaultValue={title}
         {...register('title')}
         className="edit-article-form-content"
       />
@@ -100,7 +84,6 @@ const NewArticleForm = ({
         name="description"
         id="description"
         placeholder="Title"
-        // defaultValue={description}
         {...register('description')}
         className="edit-article-form-content"
       />
@@ -112,7 +95,6 @@ const NewArticleForm = ({
         type="text"
         id="text"
         placeholder="Text"
-        // defaultValue={text}
         className="edit-article-form-content form-area"
         {...register('body')}
       />

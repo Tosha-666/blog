@@ -6,8 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { registerNewUser } from '../../../api'
 import { setUser } from '../../store/userSlice'
-import { api } from '../../../api'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -50,24 +50,14 @@ const SignUp = () => {
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
-    console.log(registrationData)
-    const regData = await api.post('api/users', {
-      user: {
-        username: registrationData.userName,
-        email: registrationData.emailAddress,
-        password: registrationData.password,
-      },
-    })
+    const regData = await registerNewUser(registrationData)
 
     dispatch(setUser(regData.data.user))
     navigate('/')
     console.log(regData)
     reset()
   }
-  // const onSubmit = (data) => {
-  //   console.log(data)
-  //   reset()
-  // }
+
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>
@@ -170,7 +160,7 @@ const SignUp = () => {
         />
         <span>
           Already have an account?
-          <Link to="/authentification/">Sign In</Link>
+          <Link to="/registration">Sign In</Link>
           {/* <a href="#">Sign In.</a> */}
         </span>
       </form>

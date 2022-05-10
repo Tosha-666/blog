@@ -15,6 +15,7 @@ const SignIn = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+
   const schema = yup.object({
     emailAddress: yup
       .string()
@@ -98,7 +99,7 @@ const SignIn = () => {
         />
         <span>
           Don’t have an account?
-          <Link to="/registration/">Sign Up</Link>
+          <Link to="/authentification">Sign Up</Link>
         </span>
       </form>
     </div>
