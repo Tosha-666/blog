@@ -28,7 +28,7 @@ const ArticleList = () => {
     setTotalArticles(articlesCount)
 
     setPosts(articles)
-    console.log(posts.length)
+    console.log(articles)
   }, [page, isAuth])
 
   // const getArticles = async () => {
@@ -58,6 +58,7 @@ const ArticleList = () => {
           author={article.author.username}
           creationData={article.createdAt}
           description={article.description}
+          tagList={article.tagList}
           userAvatar={article.author.image}
         />
       ))}

@@ -14,17 +14,21 @@ const NewArticleForm = ({
   sendChanges,
   slug,
 }) => {
+  // const [arrOfTags,setArrOfTags]=([])
   const arrOfTags = []
+
   useEffect(() => {
     reset({ title, description, body: content, tags: arrOfTags })
-  }, [title, description, content, tagList])
-  tagList && tagList.map((tagItem) => arrOfTags.push({ tag: tagItem })),
-    console.log(tagList)
+  }, [title, description, content])
 
+  tagList && tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
+  console.log(tagList)
+  console.log(arrOfTags)
   const schema = yup.object({
     title: yup.string().required('This field is required'),
     description: yup.string().required('This field is required'),
     body: yup.string().required('This field is required'),
+    tags: yup.string().required('This field is required'),
   })
   const { register, handleSubmit, reset, control } = useForm({
     mode: 'onBlur',

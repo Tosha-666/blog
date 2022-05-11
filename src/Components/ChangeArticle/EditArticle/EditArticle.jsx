@@ -34,7 +34,7 @@ const EditArticle = () => {
 
   return (
     <div className="edit-article-container">
-      <h1 className="edit-article-title">CreateArticle</h1>
+      <h1 className="edit-article-title">Edit article</h1>
 
       <NewArticleForm
         sendChanges={edit}

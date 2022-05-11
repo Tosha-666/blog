@@ -22,7 +22,7 @@ const getArticles = async (token, offset, limit) => {
 
 const create = async (data, token) => {
   const articleData = await axios({
-    method: 'post',
+    method: 'POST',
     url: 'https://api.realworld.io/api/articles',
     headers: {
       'Authorization': `Token ${token}`,
@@ -39,7 +39,7 @@ const create = async (data, token) => {
 
 const edit = async (data, token, slug) => {
   const articleData = await axios({
-    method: 'put',
+    method: 'PUT',
     url: `https://api.realworld.io/api/articles/${slug}`,
     headers: {
       'Authorization': `Token ${token}`,
@@ -55,13 +55,24 @@ const edit = async (data, token, slug) => {
 
 const getArticle = async (slug, token) => {
   const articleData = await axios({
-    method: 'get',
+    method: 'GET',
     url: `https://api.realworld.io/api/articles/${slug}`,
     headers: {
       ...(token ? { 'Authorization': `Token ${token}` } : {}),
     },
   })
   return articleData.data.article
+}
+
+const deleteArticle = async (slug, token) => {
+  const delArticleData = await axios({
+    method: 'DELETE',
+    url: `https://api.realworld.io/api/articles/${slug}`,
+    headers: {
+      'Authorization': `Token ${token}`,
+    },
+  })
+  return delArticleData
 }
 const editProfileData = async (newData, token) => {
   console.log(newData)
@@ -115,6 +126,7 @@ export {
   getUserData,
   getArticles,
   registerNewUser,
+  deleteArticle,
 }
 // https://api.realworld.io/
 // http://kata.academy:8022/

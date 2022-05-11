@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 
-import { getArticle } from '../../api'
+import { getArticle, deleteArticle } from '../../api'
 
 import './Article.scss'
 
@@ -10,12 +10,12 @@ const Article = () => {
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
   const token = useSelector((state) => state.user.token)
+  const navigate = useNavigate()
 
   const { slug } = useParams()
 
   const [title, setTitle] = useState('')
   const [likeCount, setlikeCount] = useState('')
-  // const [tags, setTags] = useState('')
   const [description, setDescription] = useState('')
   const [author, setAuthor] = useState('')
   const [date, setDate] = useState('')
@@ -37,7 +37,6 @@ const Article = () => {
 
     setTitle(title)
     setlikeCount(favoritesCount)
-    // setTags(articleData.tagList[0])
     setDescription(description)
     setAuthor(username)
     setDate(createdAt)
@@ -46,39 +45,11 @@ const Article = () => {
     setTaglist(tagList)
   }, [])
 
-  // const getAritcle = async (slug) => {
-  //   const articleData = await api.get(`articles/${slug}`)
-  //   console.log(articleData)
-  //   const {
-  //     title,
-  //     favoritesCount,
-  //     description,
-  //     createdAt,
-  //     body,
-  //     author: { username, image },
-  //     tagList,
-  //   } = articleData.data.article
-  //   console.log(
-  //     // title,
-  //     // favoritesCount,
-  //     // description,
-  //     // createdAt,
-  //     // body,
-  //     // username,
-  //     // image,
-  //     tagList
-  //   )
-  //   setTitle(title)
-  //   setlikeCount(favoritesCount)
-  //   // setTags(articleData.tagList[0])
-  //   setDescription(description)
-  //   setAuthor(username)
-  //   setDate(createdAt)
-  //   setContent(body)
-  //   setAvatar(image)
-  //   setTaglist(tagList)
-  // }
-
+  const delArticle = async (slug, token) => {
+    const res = deleteArticle(slug, token)
+    navigate('/')
+    console.log(res)
+  }
   return (
     <div className="article-container">
       <div className="article-preview">
@@ -89,7 +60,11 @@ const Article = () => {
             <span className="article-like-count">{likeCount}</span>
           </div>
           <div className="article-tag-list">
-            <span className="article-tag-item">Tag</span>
+            {tagList.map((tag) => (
+              <span className="article-tag-item" key={tag}>
+                {tag}
+              </span>
+            ))}
           </div>
           <span className="article-content">{description}</span>
         </div>
@@ -103,7 +78,12 @@ const Article = () => {
           </div>
           {authorise && user === author ? (
             <div className="article-edit">
-              <button className="delete">Delete</button>
+              <button
+                className="delete"
+                onClick={() => delArticle(slug, token)}
+              >
+                Delete
+              </button>
               <button className="edit">
                 <Link
                   to={`/article/${slug}/edit`}

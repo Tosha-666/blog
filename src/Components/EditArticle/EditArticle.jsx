@@ -3,8 +3,6 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 
-import api from '../../api'
-
 import './EditArticle.scss'
 
 const EditArticle = ({
@@ -24,13 +22,6 @@ const EditArticle = ({
 
   const token = useSelector((state) => state.user.token)
 
-  // const addTag = (e) => {
-  //   e.preventDefault()
-  //   setTagsInput((prevstate) => {
-  //     console.log(prevstate)
-  //     return [...prevstate, '']
-  //   })
-  // }
   const create = async (formatData) => {
     console.log(token)
 

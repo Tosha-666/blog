@@ -9,8 +9,10 @@ const ArticlePreview = ({
   creationData,
   description,
   userAvatar,
+  tagList,
   slug,
 }) => {
+  console.log(title, tagList)
   return (
     <div className="article-list-preview">
       <div className="article-list-info">
@@ -23,7 +25,11 @@ const ArticlePreview = ({
           <span className="article-like-count">10</span>
         </div>
         <div className="article-tag-list">
-          <span className="article-tag-item">Tag</span>
+          {tagList.map((tag) => (
+            <span className="article-tag-item" key={tag}>
+              {tag}
+            </span>
+          ))}
         </div>
         <span className="article-content">{description}</span>
       </div>

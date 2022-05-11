@@ -1,9 +1,6 @@
 import './App.scss'
 import { Route, Routes } from 'react-router-dom'
-// import { useState, useEffect } from 'react'
-// import { useDispatch } from 'react-redux'
 
-// import { getArticles } from '../store/articles'
 import { Layout } from '../Layout'
 import { ArticleList } from '../ArticleList'
 import { Article } from '../Article'
