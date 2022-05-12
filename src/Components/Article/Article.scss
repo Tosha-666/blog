@@ -45,6 +45,10 @@
                     content: url('../../images/Like.svg');
                     background-color: #fff;
                 }}
+                .active{
+                    &::after{
+                    content: url('../../images/Like-active.svg');
+                }}
                 .article-like-count{
                     font-family: Inter;
                     font-size: 12px;

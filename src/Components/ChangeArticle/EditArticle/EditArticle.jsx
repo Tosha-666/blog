@@ -23,12 +23,13 @@ const EditArticle = () => {
   useEffect(async () => {
     // console.log(await getArticle(slug, token))
     const { title, description, body, tagList } = await getArticle(slug, token)
-
+    const arrOfTags = []
+    tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
     setAboutArticle({
       title: title,
       description: description,
       content: body,
-      tagList: tagList,
+      tagList: arrOfTags,
     })
   }, [])
 

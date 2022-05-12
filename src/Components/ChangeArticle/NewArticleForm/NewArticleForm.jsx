@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -14,36 +14,33 @@ const NewArticleForm = ({
   sendChanges,
   slug,
 }) => {
-  // const [arrOfTags,setArrOfTags]=([])
-  const arrOfTags = []
-
   useEffect(() => {
-    reset({ title, description, body: content, tags: arrOfTags })
-  }, [title, description, content])
+    setValue('title', title)
+    setValue('description', description)
+    setValue('body', content)
+    replace(tagList)
+  }, [title, description, content, tagList])
 
-  tagList && tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
-  console.log(tagList)
-  console.log(arrOfTags)
   const schema = yup.object({
     title: yup.string().required('This field is required'),
     description: yup.string().required('This field is required'),
     body: yup.string().required('This field is required'),
-    tags: yup.string().required('This field is required'),
+    // tags: yup.string().required('This field is required'),
   })
-  const { register, handleSubmit, reset, control } = useForm({
+  const { register, handleSubmit, reset, control, setValue } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
-    defaultValues: useMemo(() => {
-      return {
-        tags: arrOfTags,
-        title: title,
-        description: description,
-        body: content,
-      }
-    }),
+    // defaultValues: useMemo(() => {
+    //   return {
+    //     tags: arrOfTags,
+    //     title: title,
+    //     description: description,
+    //     body: content,
+    //   }
+    // }),
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: 'tags',
   })
@@ -114,6 +111,7 @@ const NewArticleForm = ({
                   placeholder="Tag"
                   {...register(`tags.${index}.tag`)}
                   className="edit-article-form-content edit-article-form-tag"
+                  required
                 />
 
                 <button

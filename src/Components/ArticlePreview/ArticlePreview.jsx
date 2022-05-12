@@ -10,6 +10,7 @@ const ArticlePreview = ({
   description,
   userAvatar,
   tagList,
+  favoritesCount,
   slug,
 }) => {
   console.log(title, tagList)
@@ -22,7 +23,7 @@ const ArticlePreview = ({
           </Link>
 
           <button className="article-list-like"></button>
-          <span className="article-like-count">10</span>
+          <span className="article-like-count">{favoritesCount}</span>
         </div>
         <div className="article-tag-list">
           {tagList.map((tag) => (

@@ -117,6 +117,28 @@ const registerNewUser = async (data) => {
   })
   return regData
 }
+const favoriteArticle = async (slug, token) => {
+  const favoriteData = await axios({
+    method: 'POST',
+    url: `https://api.realworld.io/api/articles/${slug}/favorite`,
+    headers: {
+      'Authorization': `Token ${token}`,
+    },
+  })
+  return favoriteData.data.article
+}
+
+const unFavoriteArticle = async (slug, token) => {
+  const unfavoriteData = await axios({
+    method: 'DELETE',
+    url: `https://api.realworld.io/api/articles/${slug}/favorite`,
+    headers: {
+      'Authorization': `Token ${token}`,
+    },
+  })
+  return unfavoriteData.data.article
+}
+
 export {
   create,
   edit,
@@ -127,6 +149,8 @@ export {
   getArticles,
   registerNewUser,
   deleteArticle,
+  favoriteArticle,
+  unFavoriteArticle,
 }
 // https://api.realworld.io/
 // http://kata.academy:8022/

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 
-import { getArticle, deleteArticle } from '../../api'
+import {
+  getArticle,
+  deleteArticle,
+  favoriteArticle,
+  unFavoriteArticle,
+} from '../../api'
 
 import './Article.scss'
 
@@ -14,20 +19,33 @@ const Article = () => {
 
   const { slug } = useParams()
 
-  const [title, setTitle] = useState('')
-  const [likeCount, setlikeCount] = useState('')
-  const [description, setDescription] = useState('')
-  const [author, setAuthor] = useState('')
-  const [date, setDate] = useState('')
-  const [content, setContent] = useState('')
-  const [avatar, setAvatar] = useState('')
-  const [tagList, setTaglist] = useState([])
+  // const [title, setTitle] = useState('')
+  // const [likeCount, setlikeCount] = useState('')
+  // const [description, setDescription] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [date, setDate] = useState('')
+  // const [content, setContent] = useState('')
+  // const [avatar, setAvatar] = useState('')
+  // const [tagList, setTaglist] = useState([])
+  const [aboutArticle, setAboutArticle] = useState({
+    title: '',
+    likeCount: 0,
+    description: '',
+    author: '',
+    date: '',
+    content: '',
+    avatar: '',
+    tagList: [],
+  })
+
+  const [like, setLike] = useState(false)
 
   useEffect(async () => {
     console.log(await getArticle(slug, token))
     const {
       title,
       favoritesCount,
+      favorited,
       description,
       createdAt,
       body,
@@ -35,14 +53,25 @@ const Article = () => {
       tagList,
     } = await getArticle(slug, token)
 
-    setTitle(title)
-    setlikeCount(favoritesCount)
-    setDescription(description)
-    setAuthor(username)
-    setDate(createdAt)
-    setContent(body)
-    setAvatar(image)
-    setTaglist(tagList)
+    setAboutArticle({
+      title,
+      likeCount: favoritesCount,
+      description,
+      author: username,
+      date: createdAt,
+      content: body,
+      avatar: image,
+      tagList,
+    })
+    setLike(favorited)
+    // setTitle(title)
+    // setlikeCount(favoritesCount)
+    // setDescription(description)
+    // setAuthor(username)
+    // setDate(createdAt)
+    // setContent(body)
+    // setAvatar(image)
+    // setTaglist(tagList)
   }, [])
 
   const delArticle = async (slug, token) => {
@@ -50,33 +79,49 @@ const Article = () => {
     navigate('/')
     console.log(res)
   }
+
+  const favourArticle = async (slug, token) => {
+    const { favorited } = like
+      ? await unFavoriteArticle(slug, token)
+      : await favoriteArticle(slug, token)
+    setLike(favorited)
+    console.log(favorited)
+  }
+
   return (
     <div className="article-container">
       <div className="article-preview">
         <div className="article-info">
           <div className="article-header">
-            <span className="article-title">{title}</span>
-            <button className="article-like"></button>
-            <span className="article-like-count">{likeCount}</span>
+            <span className="article-title">{aboutArticle.title}</span>
+            <button
+              className={like ? 'article-like active' : 'article-like'}
+              onClick={() => favourArticle(slug, token)}
+            ></button>
+            <span className="article-like-count">{aboutArticle.likeCount}</span>
           </div>
           <div className="article-tag-list">
-            {tagList.map((tag) => (
+            {aboutArticle.tagList.map((tag) => (
               <span className="article-tag-item" key={tag}>
                 {tag}
               </span>
             ))}
           </div>
-          <span className="article-content">{description}</span>
+          <span className="article-content">{aboutArticle.description}</span>
         </div>
         <div className="user-personalize">
           <div className="people-info">
             <div className="user-name-wrapper">
-              <span className="article-author-name">{author}</span>
-              <span className="article-release-date">{date}</span>
+              <span className="article-author-name">{aboutArticle.author}</span>
+              <span className="article-release-date">{aboutArticle.date}</span>
             </div>
-            <img src={avatar} alt="" className="article-author-image" />
+            <img
+              src={aboutArticle.avatar}
+              alt=""
+              className="article-author-image"
+            />
           </div>
-          {authorise && user === author ? (
+          {authorise && user === aboutArticle.author ? (
             <div className="article-edit">
               <button
                 className="delete"
@@ -87,9 +132,9 @@ const Article = () => {
               <button className="edit">
                 <Link
                   to={`/article/${slug}/edit`}
-                  title={title}
-                  description={description}
-                  text={content}
+                  // title={title}
+                  // description={description}
+                  // text={content}
                 >
                   Edit
                 </Link>
@@ -97,7 +142,7 @@ const Article = () => {
             </div>
           ) : null}
         </div>
-        <span className="article-content-all">{content}</span>
+        <span className="article-content-all">{aboutArticle.content}</span>
       </div>
     </div>
   )

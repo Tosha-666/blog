@@ -9,7 +9,13 @@ const CreateArticle = () => {
   return (
     <div className="edit-article-container">
       <h1 className="edit-article-title">Create Article</h1>
-      <NewArticleForm sendChanges={create} />
+      <NewArticleForm
+        sendChanges={create}
+        title=""
+        description=""
+        content=""
+        tagList=""
+      />
     </div>
   )
 }
