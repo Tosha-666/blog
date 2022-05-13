@@ -114,6 +114,7 @@
         }
         .article-edit{
             margin-top: 30px;
+            position: relative;
             .delete{
                 @include fontz(14px,22px);
                 color: #F5222D;

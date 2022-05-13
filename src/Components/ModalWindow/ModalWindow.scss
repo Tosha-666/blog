@@ -1,0 +1,55 @@
+@mixin fontz($size,$height) {
+    font-size: $size;
+    font-weight: 400;
+    line-height: $height;
+    letter-spacing: 0em;
+    text-align: left;
+    font-family: Roboto;
+    line-height: 22px;
+    letter-spacing: 0em;
+  }
+.delete-modal{
+    width: 240px;
+    height: 104px;
+    position:absolute;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    left: 80px;
+    top: 0px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    display: block;
+    .delete-modal-title{
+        @include fontz(14px,22px);
+        &::before{
+            content: url('../../images/attension.svg');
+    }}
+    .delete-modal-agreement-buttom-agree{ 
+        @include fontz(14px,22px);
+        width: 39px;
+        height: 24px;
+        color: #FFFFFF;
+        background-color:  #1890FF;
+        border: 1px solid #1890FF;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor:pointer
+    }
+    .delete-modal-agreement-buttom-disagree{
+        @include fontz(14px,22px);
+        width: 34px;
+        height: 24px;
+        color: #595959;
+        background-color:  #FFFFFF;
+        border: 1px solid #D9D9D9;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor:pointer
+    }
+}

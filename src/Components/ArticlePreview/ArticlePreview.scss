@@ -40,10 +40,15 @@
                 .article-list-like{
                     width: 16px;
                     height: 14px;
+                    cursor:pointer;
                     &::after{
                     content: url('../../images/Like.svg');
                   
                     background-color: #fff;
+                }}
+                .active{
+                    &::after{
+                    content: url('../../images/Like-active.svg');
                 }}
                 .article-like-count{
                     font-family: Inter;

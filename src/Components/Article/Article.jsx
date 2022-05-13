@@ -8,6 +8,7 @@ import {
   favoriteArticle,
   unFavoriteArticle,
 } from '../../api'
+import ModalWindow from '../ModalWindow/ModalWindow'
 
 import './Article.scss'
 
@@ -38,7 +39,10 @@ const Article = () => {
     tagList: [],
   })
 
-  const [like, setLike] = useState(false)
+  const [like, setLike] = useState({
+    likeCount: 0,
+    like: false,
+  })
 
   useEffect(async () => {
     console.log(await getArticle(slug, token))
@@ -55,7 +59,7 @@ const Article = () => {
 
     setAboutArticle({
       title,
-      likeCount: favoritesCount,
+      // likeCount: favoritesCount,
       description,
       author: username,
       date: createdAt,
@@ -63,7 +67,7 @@ const Article = () => {
       avatar: image,
       tagList,
     })
-    setLike(favorited)
+    setLike({ likeCount: favoritesCount, like: favorited })
     // setTitle(title)
     // setlikeCount(favoritesCount)
     // setDescription(description)
@@ -81,11 +85,11 @@ const Article = () => {
   }
 
   const favourArticle = async (slug, token) => {
-    const { favorited } = like
+    const { favorited, favoritesCount } = like.like
       ? await unFavoriteArticle(slug, token)
       : await favoriteArticle(slug, token)
-    setLike(favorited)
-    console.log(favorited)
+    setLike({ likeCount: favoritesCount, like: favorited })
+    // console.log(favorited)
   }
 
   return (
@@ -95,10 +99,10 @@ const Article = () => {
           <div className="article-header">
             <span className="article-title">{aboutArticle.title}</span>
             <button
-              className={like ? 'article-like active' : 'article-like'}
+              className={like.like ? 'article-like active' : 'article-like'}
               onClick={() => favourArticle(slug, token)}
             ></button>
-            <span className="article-like-count">{aboutArticle.likeCount}</span>
+            <span className="article-like-count">{like.likeCount}</span>
           </div>
           <div className="article-tag-list">
             {aboutArticle.tagList.map((tag) => (
@@ -130,15 +134,9 @@ const Article = () => {
                 Delete
               </button>
               <button className="edit">
-                <Link
-                  to={`/article/${slug}/edit`}
-                  // title={title}
-                  // description={description}
-                  // text={content}
-                >
-                  Edit
-                </Link>
+                <Link to={`/article/${slug}/edit`}>Edit</Link>
               </button>
+              <ModalWindow />
             </div>
           ) : null}
         </div>

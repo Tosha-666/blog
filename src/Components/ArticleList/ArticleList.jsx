@@ -61,6 +61,7 @@ const ArticleList = () => {
           tagList={article.tagList}
           userAvatar={article.author.image}
           favoritesCount={article.favoritesCount}
+          favorited={article.favorited}
         />
       ))}
       {!!totalArticles && (

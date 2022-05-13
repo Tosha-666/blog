@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { favoriteArticle, unFavoriteArticle } from '../../api'
 
 import './ArticlePreview.scss'
 
@@ -11,8 +14,28 @@ const ArticlePreview = ({
   userAvatar,
   tagList,
   favoritesCount,
+  favorited,
   slug,
 }) => {
+  const token = useSelector((state) => state.user.token)
+
+  useEffect(() => {
+    setLike({ likeCount: favoritesCount, like: favorited })
+  }, [])
+
+  const [like, setLike] = useState({
+    likeCount: 0,
+    like: false,
+  })
+
+  const favourArticle = async (slug, token) => {
+    const { favorited, favoritesCount } = like.like
+      ? await unFavoriteArticle(slug, token)
+      : await favoriteArticle(slug, token)
+    setLike({ likeCount: favoritesCount, like: favorited })
+    console.log(favorited)
+  }
+
   console.log(title, tagList)
   return (
     <div className="article-list-preview">
@@ -22,8 +45,13 @@ const ArticlePreview = ({
             <span className="article-list-title">{title}</span>
           </Link>
 
-          <button className="article-list-like"></button>
-          <span className="article-like-count">{favoritesCount}</span>
+          <button
+            className={
+              like.like ? 'article-list-like active' : 'article-list-like'
+            }
+            onClick={() => favourArticle(slug, token)}
+          ></button>
+          <span className="article-like-count">{like.likeCount}</span>
         </div>
         <div className="article-tag-list">
           {tagList.map((tag) => (
