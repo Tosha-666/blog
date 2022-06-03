@@ -13,6 +13,7 @@ const ArticleList = () => {
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
   const [totalArticles, setTotalArticles] = useState(0)
+  // const [articlesPerPage, setArticlesPerPage] = useState(5)
 
   const articlesPerPage = 5
 
@@ -25,12 +26,13 @@ const ArticleList = () => {
       offset,
       articlesPerPage
     )
+
     setTotalArticles(articlesCount)
 
     setPosts(articles)
-    console.log(articles)
+    console.log(articles, articlesCount)
   }, [page, isAuth])
-
+  // console.log(totalArticles)
   // const getArticles = async () => {
   //   const articles = await api.get('articles', {
   //     headers: {
@@ -64,16 +66,19 @@ const ArticleList = () => {
           favorited={article.favorited}
         />
       ))}
-      {!!totalArticles && (
+      {totalArticles && (
         <div className="pagination">
           {' '}
           <Pagination
             size="small"
-            current={page}
-            defaultPageSize={articlesPerPage}
+            // current={page}
+            // defaultPageSize={articlesPerPage}
+            // onShowSizeChange={setArticlesPerPage}
+            showSizeChanger={false}
             onChange={(page) => setPage(page)}
             total={totalArticles}
             hideOnSinglePage
+            // simple
           />
         </div>
       )}

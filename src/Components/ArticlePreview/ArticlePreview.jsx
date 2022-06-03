@@ -36,7 +36,7 @@ const ArticlePreview = ({
     console.log(favorited)
   }
 
-  console.log(title, tagList)
+  // console.log(title, tagList)
   return (
     <div className="article-list-preview">
       <div className="article-list-info">

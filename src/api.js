@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://api.realworld.io/api/',
+  baseURL: 'https://kata.academy:8021/api/',
+  // 'https://api.realworld.io/api/'
 })
 
 const getArticles = async (token, offset, limit) => {
@@ -23,7 +24,7 @@ const getArticles = async (token, offset, limit) => {
 const create = async (data, token) => {
   const articleData = await axios({
     method: 'POST',
-    url: 'https://api.realworld.io/api/articles',
+    url: 'https://kata.academy:8021/api/articles',
     headers: {
       'Authorization': `Token ${token}`,
     },
@@ -40,7 +41,7 @@ const create = async (data, token) => {
 const edit = async (data, token, slug) => {
   const articleData = await axios({
     method: 'PUT',
-    url: `https://api.realworld.io/api/articles/${slug}`,
+    url: `https://kata.academy:8021/api/articles/${slug}`,
     headers: {
       'Authorization': `Token ${token}`,
     },
@@ -56,7 +57,7 @@ const edit = async (data, token, slug) => {
 const getArticle = async (slug, token) => {
   const articleData = await axios({
     method: 'GET',
-    url: `https://api.realworld.io/api/articles/${slug}`,
+    url: `https://kata.academy:8021/api/articles/${slug}`,
     headers: {
       ...(token ? { 'Authorization': `Token ${token}` } : {}),
     },
@@ -67,7 +68,7 @@ const getArticle = async (slug, token) => {
 const deleteArticle = async (slug, token) => {
   const delArticleData = await axios({
     method: 'DELETE',
-    url: `https://api.realworld.io/api/articles/${slug}`,
+    url: `https://kata.academy:8021/api/articles/${slug}`,
     headers: {
       'Authorization': `Token ${token}`,
     },
@@ -78,7 +79,7 @@ const editProfileData = async (newData, token) => {
   console.log(newData)
   const updateData = await axios({
     method: 'put',
-    url: 'https://api.realworld.io/api/user',
+    url: 'https://kata.academy:8021/api/user',
     headers: {
       'Authorization': `Token ${token}`,
     },
@@ -120,7 +121,7 @@ const registerNewUser = async (data) => {
 const favoriteArticle = async (slug, token) => {
   const favoriteData = await axios({
     method: 'POST',
-    url: `https://api.realworld.io/api/articles/${slug}/favorite`,
+    url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
     headers: {
       'Authorization': `Token ${token}`,
     },
@@ -131,7 +132,7 @@ const favoriteArticle = async (slug, token) => {
 const unFavoriteArticle = async (slug, token) => {
   const unfavoriteData = await axios({
     method: 'DELETE',
-    url: `https://api.realworld.io/api/articles/${slug}/favorite`,
+    url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
     headers: {
       'Authorization': `Token ${token}`,
     },
