@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import format from 'date-fns/format'
+import ReactMarkdown from 'react-markdown'
 
 import {
   getArticle,
@@ -20,14 +22,6 @@ const Article = () => {
 
   const { slug } = useParams()
 
-  // const [title, setTitle] = useState('')
-  // const [likeCount, setlikeCount] = useState('')
-  // const [description, setDescription] = useState('')
-  // const [author, setAuthor] = useState('')
-  // const [date, setDate] = useState('')
-  // const [content, setContent] = useState('')
-  // const [avatar, setAvatar] = useState('')
-  // const [tagList, setTaglist] = useState([])
   const [aboutArticle, setAboutArticle] = useState({
     title: '',
     likeCount: 0,
@@ -44,6 +38,8 @@ const Article = () => {
     like: false,
   })
 
+  const [delModal, setDelModal] = useState(false)
+
   useEffect(async () => {
     console.log(await getArticle(slug, token))
     const {
@@ -59,7 +55,6 @@ const Article = () => {
 
     setAboutArticle({
       title,
-      // likeCount: favoritesCount,
       description,
       author: username,
       date: createdAt,
@@ -68,14 +63,6 @@ const Article = () => {
       tagList,
     })
     setLike({ likeCount: favoritesCount, like: favorited })
-    // setTitle(title)
-    // setlikeCount(favoritesCount)
-    // setDescription(description)
-    // setAuthor(username)
-    // setDate(createdAt)
-    // setContent(body)
-    // setAvatar(image)
-    // setTaglist(tagList)
   }, [])
 
   const delArticle = async (slug, token) => {
@@ -89,7 +76,18 @@ const Article = () => {
       ? await unFavoriteArticle(slug, token)
       : await favoriteArticle(slug, token)
     setLike({ likeCount: favoritesCount, like: favorited })
-    // console.log(favorited)
+  }
+
+  const closeDelModal = (b) => {
+    setDelModal(b)
+  }
+
+  const formatData = (date) => {
+    const year = Number(date.slice(0, 4))
+    const month = Number(date.slice(5, 7))
+    const day = Number(date.slice(8, 10))
+    const data = format(new Date(year, month, day), 'MMMM d, y')
+    return data
   }
 
   return (
@@ -117,7 +115,9 @@ const Article = () => {
           <div className="people-info">
             <div className="user-name-wrapper">
               <span className="article-author-name">{aboutArticle.author}</span>
-              <span className="article-release-date">{aboutArticle.date}</span>
+              <span className="article-release-date">
+                {formatData(aboutArticle.date)}
+              </span>
             </div>
             <img
               src={aboutArticle.avatar}
@@ -127,20 +127,26 @@ const Article = () => {
           </div>
           {authorise && user === aboutArticle.author ? (
             <div className="article-edit">
-              <button
-                className="delete"
-                onClick={() => delArticle(slug, token)}
-              >
+              <button className="delete" onClick={() => setDelModal(true)}>
                 Delete
               </button>
               <button className="edit">
                 <Link to={`/article/${slug}/edit`}>Edit</Link>
               </button>
-              <ModalWindow />
+              {delModal && (
+                <ModalWindow
+                  delArticle={delArticle}
+                  slug={slug}
+                  token={token}
+                  closeDelModal={closeDelModal}
+                />
+              )}
             </div>
           ) : null}
         </div>
-        <span className="article-content-all">{aboutArticle.content}</span>
+        <span className="article-content-all">
+          <ReactMarkdown>{aboutArticle.content}</ReactMarkdown>
+        </span>
       </div>
     </div>
   )

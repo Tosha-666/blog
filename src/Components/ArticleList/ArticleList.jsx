@@ -13,13 +13,9 @@ const ArticleList = () => {
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
   const [totalArticles, setTotalArticles] = useState(0)
-  // const [articlesPerPage, setArticlesPerPage] = useState(5)
-
-  const articlesPerPage = 5
+  const [articlesPerPage, setArticlesPerPage] = useState(10)
 
   useEffect(async () => {
-    console.log(page)
-
     const offset = (page > 0 ? page - 1 : 0) * articlesPerPage
     const { articles, articlesCount } = await getArticles(
       token,
@@ -30,8 +26,8 @@ const ArticleList = () => {
     setTotalArticles(articlesCount)
 
     setPosts(articles)
-    console.log(articles, articlesCount)
-  }, [page, isAuth])
+    // console.log(articles, articlesCount)
+  }, [page, isAuth, articlesPerPage])
   // console.log(totalArticles)
   // const getArticles = async () => {
   //   const articles = await api.get('articles', {
@@ -73,8 +69,8 @@ const ArticleList = () => {
             size="small"
             // current={page}
             // defaultPageSize={articlesPerPage}
-            // onShowSizeChange={setArticlesPerPage}
-            showSizeChanger={false}
+            onShowSizeChange={(curr, pages) => setArticlesPerPage(pages)}
+            showSizeChanger={true}
             onChange={(page) => setPage(page)}
             total={totalArticles}
             hideOnSinglePage

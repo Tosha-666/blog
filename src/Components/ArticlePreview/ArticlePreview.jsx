@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import format from 'date-fns/format'
 
 import { favoriteArticle, unFavoriteArticle } from '../../api'
 
@@ -36,6 +37,14 @@ const ArticlePreview = ({
     console.log(favorited)
   }
 
+  const formatData = (date) => {
+    const year = Number(date.slice(0, 4))
+    const month = Number(date.slice(5, 7))
+    const day = Number(date.slice(8, 10))
+    const data = format(new Date(year, month, day), 'MMMM d, y')
+    return data
+  }
+
   // console.log(title, tagList)
   return (
     <div className="article-list-preview">
@@ -65,7 +74,9 @@ const ArticlePreview = ({
       <div className="people-info">
         <div className="user-name-wrapper">
           <span className="article-author-name">{author}</span>
-          <span className="article-release-date">{creationData}</span>
+          <span className="article-release-date">
+            {formatData(creationData)}
+          </span>
         </div>
         <img src={userAvatar} alt="" className="article-author-image" />
       </div>
