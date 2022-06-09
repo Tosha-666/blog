@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { registerNewUser } from '../../../api'
-import { setUser } from '../../store/userSlice'
+import { setUser, setLoading } from '../../store/userSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -50,9 +50,11 @@ const SignUp = () => {
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
+    dispatch(setLoading(true))
     const regData = await registerNewUser(registrationData)
 
     dispatch(setUser(regData.data.user))
+    dispatch(setLoading(true))
     navigate('/')
     console.log(regData)
     reset()

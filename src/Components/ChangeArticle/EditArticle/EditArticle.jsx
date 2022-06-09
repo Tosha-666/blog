@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { NewArticleForm } from '../NewArticleForm'
+import { setLoading } from '../../store/userSlice'
 import { edit, getArticle } from '../../../api'
 
 import './EditArticle.scss'
 
 const EditArticle = () => {
+  const dispatch = useDispatch()
   const token = useSelector((state) => state.user.token)
 
   const { slug } = useParams()
@@ -21,6 +23,7 @@ const EditArticle = () => {
   })
 
   useEffect(async () => {
+    dispatch(setLoading(true))
     // console.log(await getArticle(slug, token))
     const { title, description, body, tagList } = await getArticle(slug, token)
     const arrOfTags = []
@@ -31,6 +34,7 @@ const EditArticle = () => {
       content: body,
       tagList: arrOfTags,
     })
+    dispatch(setLoading(false))
   }, [])
 
   return (

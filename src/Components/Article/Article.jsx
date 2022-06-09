@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import format from 'date-fns/format'
 import ReactMarkdown from 'react-markdown'
 
+import { setLoading } from '../store/userSlice'
 import {
   getArticle,
   deleteArticle,
@@ -15,6 +16,8 @@ import ModalWindow from '../ModalWindow/ModalWindow'
 import './Article.scss'
 
 const Article = () => {
+  const dispatch = useDispatch()
+
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
   const token = useSelector((state) => state.user.token)
@@ -66,7 +69,9 @@ const Article = () => {
   }, [])
 
   const delArticle = async (slug, token) => {
+    dispatch(setLoading(true))
     const res = deleteArticle(slug, token)
+    dispatch(setLoading(false))
     navigate('/')
     console.log(res)
   }

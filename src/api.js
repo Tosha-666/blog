@@ -17,7 +17,7 @@ const getArticles = async (token, offset, limit) => {
   })
   if (articles.status === 200) {
     console.log(articles)
-    return articles.data
+    return articles
   }
 }
 
@@ -118,6 +118,17 @@ const registerNewUser = async (data) => {
   })
   return regData
 }
+
+const loginUser = async (data) => {
+  const regData = await api.post('users/login', {
+    user: {
+      email: data.emailAddress,
+      password: data.password,
+    },
+  })
+  return regData.data.user
+}
+
 const favoriteArticle = async (slug, token) => {
   const favoriteData = await axios({
     method: 'POST',
@@ -152,6 +163,7 @@ export {
   deleteArticle,
   favoriteArticle,
   unFavoriteArticle,
+  loginUser,
 }
 // https://api.realworld.io/
 // http://kata.academy:8022/

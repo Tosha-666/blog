@@ -1,14 +1,18 @@
 // Обнуляющие стили
-@import "NullStyle.scss";
+@import 'NullStyle.scss';
 // Стили объекта
 
-
-  .main{
-    background-color: #E5E5E5;
-    min-height: 100vh;
-    .container{
-      width: 950px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.main {
+  background-color: #e5e5e5;
+  min-height: 100vh;
+  .spinner {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
   }
+  .container {
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

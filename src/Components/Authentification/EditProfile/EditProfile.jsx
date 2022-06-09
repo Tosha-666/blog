@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { editProfileData, getUserData } from '../../../api'
-import { setUser } from '../../store/userSlice'
+import { setUser, setLoading } from '../../store/userSlice'
 
 const EditProfile = () => {
   const token = useSelector((state) => state.user.token)
@@ -16,11 +16,15 @@ const EditProfile = () => {
   const dispatch = useDispatch()
 
   const [userData, setUserData] = useState({})
+
   useEffect(async () => {
     console.log(await getUserData(token))
+    dispatch(setLoading(true))
     const { username, email, image } = await getUserData(token)
+    dispatch(setLoading(false))
     setUserData({ username, email, image })
   }, [])
+
   useEffect(() => {
     reset({
       username: userData.username,
@@ -60,8 +64,10 @@ const EditProfile = () => {
   // console.log(getValues())
 
   const submiteUserdata = async (data) => {
+    dispatch(setLoading(true))
     const updatedData = await editProfileData(data, token)
     dispatch(setUser(updatedData.data.user))
+    dispatch(setLoading(false))
     navigate('/')
     console.log(updatedData)
   }

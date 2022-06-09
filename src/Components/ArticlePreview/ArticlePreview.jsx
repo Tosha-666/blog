@@ -19,6 +19,7 @@ const ArticlePreview = ({
   slug,
 }) => {
   const token = useSelector((state) => state.user.token)
+  const isAuth = useSelector((state) => state.user.isAuthorized)
 
   useEffect(() => {
     setLike({ likeCount: favoritesCount, like: favorited })
@@ -30,11 +31,15 @@ const ArticlePreview = ({
   })
 
   const favourArticle = async (slug, token) => {
-    const { favorited, favoritesCount } = like.like
-      ? await unFavoriteArticle(slug, token)
-      : await favoriteArticle(slug, token)
-    setLike({ likeCount: favoritesCount, like: favorited })
-    console.log(favorited)
+    if (isAuth) {
+      const { favorited, favoritesCount } = like.like
+        ? await unFavoriteArticle(slug, token)
+        : await favoriteArticle(slug, token)
+      setLike({ likeCount: favoritesCount, like: favorited })
+      console.log(favorited)
+    } else {
+      alert('You should Log In first')
+    }
   }
 
   const formatData = (date) => {

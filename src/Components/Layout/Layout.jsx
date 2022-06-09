@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import cookie from 'cookie_js'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 import { removeUser } from '../store/userSlice'
@@ -13,6 +14,7 @@ const Layout = () => {
   const avatar = useSelector((state) => state.user.image)
 
   const logOut = () => {
+    cookie.set('tokBlog', '')
     dispatch(removeUser())
     navigate('/')
   }
@@ -33,7 +35,14 @@ const Layout = () => {
             <div className="person-info">
               <span className="person-name">{userName}</span>
               <Link to="editProfile">
-                <img src={avatar} alt="" className="person-avatar" />
+                <img
+                  src={
+                    avatar ||
+                    'https://static.productionready.io/images/smiley-cyrus.jpg'
+                  }
+                  alt=""
+                  className="person-avatar"
+                />
               </Link>
             </div>
             <button className="log-out" onClick={() => logOut()}>

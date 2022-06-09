@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 const initialState = {
   username: null,
   email: null,
   token: null,
   image: null,
   isAuthorized: false,
+  loading: false,
 }
 const userSlice = createSlice({
   name: 'user',
@@ -15,7 +17,7 @@ const userSlice = createSlice({
       state.email = action.payload.email
       state.token = action.payload.token
       state.image = action.payload.image
-      state.isAuthorized = !!action.payload.token
+      state.isAuthorized = !!action.payload.username
     },
 
     removeUser(state) {
@@ -26,8 +28,12 @@ const userSlice = createSlice({
       state.image = null
       state.isAuthorized = false
     },
+    setLoading(state, action) {
+      // console.log(action.payload)
+      state.loading = action.payload
+    },
   },
 })
 
 export default userSlice.reducer
-export const { setUser, removeUser } = userSlice.actions
+export const { setUser, removeUser, setLoading } = userSlice.actions

@@ -1,4 +1,5 @@
 import React from 'react'
+import cookie from 'cookie_js'
 import './SignIn.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -6,8 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { setUser } from '../../store/userSlice'
-import { api } from '../../../api'
+import { setUser, setLoading } from '../../store/userSlice'
+import { loginUser } from '../../../api'
 
 const SignIn = () => {
   const isAuth = useSelector((state) => state.user.isAuthorized)
@@ -36,16 +37,14 @@ const SignIn = () => {
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
-    console.log(registrationData)
-    const regData = await api.post('users/login', {
-      user: {
-        email: registrationData.emailAddress,
-        password: registrationData.password,
-      },
+    dispatch(setLoading(true))
+    const loginData = await loginUser(registrationData)
+    dispatch(setUser(loginData))
+    dispatch(setLoading(false))
+    console.log(loginData)
+    cookie.set('tokBlog', loginData.token, {
+      expires: 7,
     })
-    console.log(regData)
-    dispatch(setUser(regData.data.user))
-    console.log(isAuth)
     navigate('/')
     reset()
   }

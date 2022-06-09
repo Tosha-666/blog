@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import './ArticleList.scss'
 import { Pagination } from 'antd'
 import 'antd/dist/antd.css'
 
 import { getArticles } from '../../api'
+import { setLoading } from '../store/userSlice'
 import { ArticlePreview } from '../ArticlePreview'
 
 const ArticleList = () => {
+  const dispatch = useDispatch()
+
   const token = useSelector((state) => state.user.token)
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const [posts, setPosts] = useState([])
@@ -17,15 +20,15 @@ const ArticleList = () => {
 
   useEffect(async () => {
     const offset = (page > 0 ? page - 1 : 0) * articlesPerPage
-    const { articles, articlesCount } = await getArticles(
-      token,
-      offset,
-      articlesPerPage
-    )
+    dispatch(setLoading(true))
+    const articles = await getArticles(token, offset, articlesPerPage)
+    console.log(articles)
+    if (articles.status === 200) {
+      dispatch(setLoading(false))
+      setTotalArticles(articles.data.articlesCount)
+      setPosts(articles.data.articles)
+    }
 
-    setTotalArticles(articlesCount)
-
-    setPosts(articles)
     // console.log(articles, articlesCount)
   }, [page, isAuth, articlesPerPage])
   // console.log(totalArticles)
