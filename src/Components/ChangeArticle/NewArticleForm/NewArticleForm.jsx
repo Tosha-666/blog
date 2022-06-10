@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+
+import { setLoading, setError } from '../../store/userSlice'
 import './NewArticleForm.scss'
 
 const NewArticleForm = ({
@@ -14,6 +16,8 @@ const NewArticleForm = ({
   sendChanges,
   slug,
 }) => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
     setValue('title', title)
     setValue('description', description)
@@ -51,7 +55,6 @@ const NewArticleForm = ({
 
   const editArticle = async (data) => {
     const tags = []
-    console.log(data)
     data.tags.forEach((el) => {
       if (el) {
         console.log(el)
@@ -59,10 +62,17 @@ const NewArticleForm = ({
       }
     })
     const article = { ...data, tagList: tags }
-    console.log(article)
-    await sendChanges(article, token, slug)
-    navigate('/')
-    reset()
+    dispatch(setLoading(true))
+    dispatch(setError(null))
+    const chages = await sendChanges(article, token, slug)
+    if (chages.status === 200) {
+      dispatch(setLoading(false))
+      navigate('/')
+      reset()
+    } else {
+      dispatch(setLoading(true))
+      dispatch(setError(chages.message))
+    }
   }
   return (
     <form className="edit-article-form" onSubmit={handleSubmit(editArticle)}>

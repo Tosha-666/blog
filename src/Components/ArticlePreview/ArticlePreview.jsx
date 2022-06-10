@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import cookie from 'cookie_js'
 import format from 'date-fns/format'
 
 import { favoriteArticle, unFavoriteArticle } from '../../api'
@@ -18,7 +19,8 @@ const ArticlePreview = ({
   favorited,
   slug,
 }) => {
-  const token = useSelector((state) => state.user.token)
+  let tagKey = 100
+  const token = cookie.get('tokBlog')
   const isAuth = useSelector((state) => state.user.isAuthorized)
 
   useEffect(() => {
@@ -69,7 +71,7 @@ const ArticlePreview = ({
         </div>
         <div className="article-tag-list">
           {tagList.map((tag) => (
-            <span className="article-tag-item" key={tag}>
+            <span className="article-tag-item" key={tagKey++}>
               {tag}
             </span>
           ))}

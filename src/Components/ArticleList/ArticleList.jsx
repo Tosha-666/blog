@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './ArticleList.scss'
 import { Pagination } from 'antd'
+import cookie from 'cookie_js'
 import 'antd/dist/antd.css'
 
 import { getArticles } from '../../api'
-import { setLoading } from '../store/userSlice'
+import { setLoading, setError } from '../store/userSlice'
 import { ArticlePreview } from '../ArticlePreview'
 
 const ArticleList = () => {
   const dispatch = useDispatch()
 
-  const token = useSelector((state) => state.user.token)
+  const token = cookie.get('tokBlog')
+
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
@@ -21,12 +23,16 @@ const ArticleList = () => {
   useEffect(async () => {
     const offset = (page > 0 ? page - 1 : 0) * articlesPerPage
     dispatch(setLoading(true))
+    dispatch(setError(null))
     const articles = await getArticles(token, offset, articlesPerPage)
     console.log(articles)
     if (articles.status === 200) {
       dispatch(setLoading(false))
       setTotalArticles(articles.data.articlesCount)
       setPosts(articles.data.articles)
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(articles.message))
     }
 
     // console.log(articles, articlesCount)

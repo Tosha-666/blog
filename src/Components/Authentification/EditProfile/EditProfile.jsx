@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import './EditProfile.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import cookie from 'cookie_js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { editProfileData, getUserData } from '../../../api'
-import { setUser, setLoading } from '../../store/userSlice'
+import { setUser, setLoading, setError } from '../../store/userSlice'
 
 const EditProfile = () => {
-  const token = useSelector((state) => state.user.token)
+  const token = cookie.get('tokBlog')
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -65,10 +66,17 @@ const EditProfile = () => {
 
   const submiteUserdata = async (data) => {
     dispatch(setLoading(true))
+    dispatch(setError(null))
     const updatedData = await editProfileData(data, token)
-    dispatch(setUser(updatedData.data.user))
-    dispatch(setLoading(false))
-    navigate('/')
+    if (updatedData.status === 200) {
+      dispatch(setUser(updatedData.data.user))
+      dispatch(setLoading(false))
+      navigate('/')
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(updatedData.message))
+    }
+
     console.log(updatedData)
   }
   return (

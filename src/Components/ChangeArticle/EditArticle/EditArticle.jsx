@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import cookie from 'cookie_js'
+import { useDispatch } from 'react-redux'
 
 import { NewArticleForm } from '../NewArticleForm'
 import { setLoading } from '../../store/userSlice'
@@ -10,7 +11,7 @@ import './EditArticle.scss'
 
 const EditArticle = () => {
   const dispatch = useDispatch()
-  const token = useSelector((state) => state.user.token)
+  const token = cookie.get('tokBlog')
 
   const { slug } = useParams()
 
@@ -25,8 +26,10 @@ const EditArticle = () => {
   useEffect(async () => {
     dispatch(setLoading(true))
     // console.log(await getArticle(slug, token))
-    const { title, description, body, tagList } = await getArticle(slug, token)
+    const articleInfo = await getArticle(slug, token)
+    const { title, description, body, tagList } = articleInfo.data.article
     const arrOfTags = []
+    console.log(tagList)
     tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
     setAboutArticle({
       title: title,

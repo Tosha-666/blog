@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { registerNewUser } from '../../../api'
-import { setUser, setLoading } from '../../store/userSlice'
+import { setUser, setLoading, setError } from '../../store/userSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -51,13 +51,18 @@ const SignUp = () => {
 
   const registrationUser = async (registrationData) => {
     dispatch(setLoading(true))
+    dispatch(setError(null))
     const regData = await registerNewUser(registrationData)
-
-    dispatch(setUser(regData.data.user))
-    dispatch(setLoading(true))
-    navigate('/')
-    console.log(regData)
-    reset()
+    if (regData.status === 200) {
+      dispatch(setUser(regData.data.user))
+      dispatch(setLoading(true))
+      navigate('/')
+      console.log(regData)
+      reset()
+    } else {
+      dispatch(setLoading(true))
+      dispatch(setError(regData.message))
+    }
   }
 
   return (

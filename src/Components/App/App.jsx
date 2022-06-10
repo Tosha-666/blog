@@ -2,7 +2,8 @@ import './App.scss'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
-import { Spin } from 'antd'
+import { Spin, Alert } from 'antd'
+import 'antd/dist/antd.css'
 import cookie from 'cookie_js'
 
 import { Layout } from '../Layout'
@@ -14,12 +15,15 @@ import { EditArticle } from '../ChangeArticle/EditArticle'
 import { CreateArticle } from '../ChangeArticle/CreateArticle'
 import { EditProfile } from '../Authentification/EditProfile'
 import { getUserData } from '../../api'
-import { setUser } from '../store/userSlice'
+import { setUser, setLoading, setError } from '../store/userSlice'
+// import { ErrorBoundry } from '../ErrorBoundry'
 import RequireAuth from '../hoc/RequireAuth'
 
 const App = () => {
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const loading = useSelector((state) => state.user.loading)
+  const error = useSelector((state) => state.user.error)
+
   const dispatch = useDispatch()
 
   useEffect(async () => {
@@ -27,9 +31,16 @@ const App = () => {
       return
     } else {
       if (cookie.get('tokBlog')) {
+        dispatch(setLoading(true))
         const userData = await getUserData(cookie.get('tokBlog'))
-        console.log(userData)
-        dispatch(setUser(userData))
+        if (userData.status === 200) {
+          console.log(userData)
+          dispatch(setLoading(false))
+          dispatch(setUser(userData.data.user))
+        } else {
+          dispatch(setLoading(false))
+          dispatch(setError(userData.message))
+        }
       } else return
     }
   }, [])
@@ -37,8 +48,10 @@ const App = () => {
   return (
     <div className="main">
       {loading && <Spin size="large" className="spinner" />}
+
       <Routes>
         <Route path="/" element={<Layout />}>
+          {error && <Alert message={error} type="error" />}
           <Route index element={<ArticleList />} />
           <Route path="authentification" element={<SignUp />} />
           <Route

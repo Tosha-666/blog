@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import cookie from 'cookie_js'
 import format from 'date-fns/format'
 import ReactMarkdown from 'react-markdown'
 
-import { setLoading } from '../store/userSlice'
+import { setLoading, setError } from '../store/userSlice'
 import {
   getArticle,
   deleteArticle,
@@ -20,7 +21,7 @@ const Article = () => {
 
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
-  const token = useSelector((state) => state.user.token)
+  const token = cookie.get('tokBlog')
   const navigate = useNavigate()
 
   const { slug } = useParams()
@@ -44,34 +45,52 @@ const Article = () => {
   const [delModal, setDelModal] = useState(false)
 
   useEffect(async () => {
-    console.log(await getArticle(slug, token))
-    const {
-      title,
-      favoritesCount,
-      favorited,
-      description,
-      createdAt,
-      body,
-      author: { username, image },
-      tagList,
-    } = await getArticle(slug, token)
+    // console.log(await getArticle(slug, token))
+    dispatch(setLoading(true))
+    dispatch(setError(null))
+    const articleInfo = await getArticle(slug, token)
+    console.log(articleInfo)
+    if (articleInfo.status === 200) {
+      dispatch(setLoading(false))
+      console.log(articleInfo)
+      const {
+        title,
+        favoritesCount,
+        favorited,
+        description,
+        createdAt,
+        body,
+        author: { username, image },
+        tagList,
+      } = articleInfo.data.article
 
-    setAboutArticle({
-      title,
-      description,
-      author: username,
-      date: createdAt,
-      content: body,
-      avatar: image,
-      tagList,
-    })
-    setLike({ likeCount: favoritesCount, like: favorited })
+      setAboutArticle({
+        title,
+        description,
+        author: username,
+        date: createdAt,
+        content: body,
+        avatar: image,
+        tagList,
+      })
+      setLike({ likeCount: favoritesCount, like: favorited })
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(articleInfo.message))
+    }
   }, [])
 
   const delArticle = async (slug, token) => {
     dispatch(setLoading(true))
+    dispatch(setError(null))
     const res = deleteArticle(slug, token)
-    dispatch(setLoading(false))
+    if (res.status === 200) {
+      dispatch(setLoading(false))
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(res.message))
+    }
+
     navigate('/')
     console.log(res)
   }

@@ -15,10 +15,8 @@ const getArticles = async (token, offset, limit) => {
       offset: offset,
     },
   })
-  if (articles.status === 200) {
-    console.log(articles)
-    return articles
-  }
+
+  return articles
 }
 
 const create = async (data, token) => {
@@ -62,7 +60,7 @@ const getArticle = async (slug, token) => {
       ...(token ? { 'Authorization': `Token ${token}` } : {}),
     },
   })
-  return articleData.data.article
+  return articleData
 }
 
 const deleteArticle = async (slug, token) => {
@@ -104,7 +102,7 @@ const getUserData = async (token) => {
       'Authorization': `Token ${token}`,
     },
   })
-  return dataUser.data.user
+  return dataUser
 }
 
 const registerNewUser = async (data) => {
@@ -126,7 +124,7 @@ const loginUser = async (data) => {
       password: data.password,
     },
   })
-  return regData.data.user
+  return regData
 }
 
 const favoriteArticle = async (slug, token) => {
