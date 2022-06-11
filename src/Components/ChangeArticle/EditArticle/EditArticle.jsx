@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import cookie from 'cookie_js'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { NewArticleForm } from '../NewArticleForm'
-import { setLoading } from '../../store/userSlice'
+import { setLoading, setError } from '../../store/userSlice'
 import { edit, getArticle } from '../../../api'
+import { ErrorIndicator } from '../../ErrorIndicator'
 
 import './EditArticle.scss'
 
 const EditArticle = () => {
   const dispatch = useDispatch()
   const token = cookie.get('tokBlog')
-
+  const err = useSelector((state) => state.user.error)
   const { slug } = useParams()
 
   console.log(slug)
@@ -25,6 +26,7 @@ const EditArticle = () => {
 
   useEffect(async () => {
     dispatch(setLoading(true))
+    dispatch(setError(null))
     // console.log(await getArticle(slug, token))
     const articleInfo = await getArticle(slug, token)
     const { title, description, body, tagList } = articleInfo.data.article
@@ -37,9 +39,14 @@ const EditArticle = () => {
       content: body,
       tagList: arrOfTags,
     })
-    dispatch(setLoading(false))
+    if (articleInfo.status === 200) {
+      dispatch(setLoading(false))
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(articleInfo))
+    }
   }, [])
-
+  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="edit-article-container">
       <h1 className="edit-article-title">Edit article</h1>

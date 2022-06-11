@@ -5,6 +5,7 @@ import { Pagination } from 'antd'
 import cookie from 'cookie_js'
 import 'antd/dist/antd.css'
 
+import { ErrorIndicator } from '../ErrorIndicator'
 import { getArticles } from '../../api'
 import { setLoading, setError } from '../store/userSlice'
 import { ArticlePreview } from '../ArticlePreview'
@@ -14,7 +15,9 @@ const ArticleList = () => {
 
   const token = cookie.get('tokBlog')
 
+  const err = useSelector((state) => state.user.error)
   const isAuth = useSelector((state) => state.user.isAuthorized)
+
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
   const [totalArticles, setTotalArticles] = useState(0)
@@ -32,29 +35,10 @@ const ArticleList = () => {
       setPosts(articles.data.articles)
     } else {
       dispatch(setLoading(false))
-      dispatch(setError(articles.message))
+      dispatch(setError(articles))
     }
-
-    // console.log(articles, articlesCount)
   }, [page, isAuth, articlesPerPage])
-  // console.log(totalArticles)
-  // const getArticles = async () => {
-  //   const articles = await api.get('articles', {
-  //     headers: {
-  //       ...(token ? { 'Authorization': `Token ${token}` } : {}),
-  //     },
-  //     params: {
-  //       limit: 10,
-  //       offset: 0,
-  //     },
-  //   })
-  //   if (articles.status === 200) {
-  //     console.log(articles)
-  //     setPosts(articles.data.articles)
-  //   }
-  // }
-  // let k = 0
-  // const articlesArr = useSelector((state) => state.articles.articles)
+  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="article-preview-container">
       {posts.map((article) => (

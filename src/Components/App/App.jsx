@@ -2,7 +2,7 @@ import './App.scss'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
-import { Spin, Alert } from 'antd'
+import { Spin } from 'antd'
 import 'antd/dist/antd.css'
 import cookie from 'cookie_js'
 
@@ -16,13 +16,11 @@ import { CreateArticle } from '../ChangeArticle/CreateArticle'
 import { EditProfile } from '../Authentification/EditProfile'
 import { getUserData } from '../../api'
 import { setUser, setLoading, setError } from '../store/userSlice'
-// import { ErrorBoundry } from '../ErrorBoundry'
 import RequireAuth from '../hoc/RequireAuth'
 
 const App = () => {
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const loading = useSelector((state) => state.user.loading)
-  const error = useSelector((state) => state.user.error)
 
   const dispatch = useDispatch()
 
@@ -48,10 +46,9 @@ const App = () => {
   return (
     <div className="main">
       {loading && <Spin size="large" className="spinner" />}
-
+      {/* {error && <Alert message={error} type="error" />} */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          {error && <Alert message={error} type="error" />}
           <Route index element={<ArticleList />} />
           <Route path="authentification" element={<SignUp />} />
           <Route

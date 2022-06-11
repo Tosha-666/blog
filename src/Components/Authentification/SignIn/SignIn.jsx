@@ -1,12 +1,13 @@
 import React from 'react'
 import cookie from 'cookie_js'
 import './SignIn.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { ErrorIndicator } from '../../ErrorIndicator'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 import { loginUser } from '../../../api'
 
@@ -16,6 +17,7 @@ const SignIn = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+  const err = useSelector((state) => state.user.error)
 
   const schema = yup.object({
     emailAddress: yup
@@ -47,13 +49,14 @@ const SignIn = () => {
       cookie.set('tokBlog', loginData.data.user.token, {
         expires: 7,
       })
+      navigate('/')
+      reset()
     } else {
-      dispatch(setError(loginData.message))
+      dispatch(setLoading(false))
+      dispatch(setError(loginData))
     }
-
-    navigate('/')
-    reset()
   }
+  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="authentification-container">
       <h1 className="authentification-title">Sign In</h1>

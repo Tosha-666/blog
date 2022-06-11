@@ -12,6 +12,7 @@ export default class ErrorBoundry extends Component {
     console.log(er)
     this.setState({
       hasError: true,
+      errorType: null,
     })
   }
 

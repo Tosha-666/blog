@@ -5,6 +5,7 @@ import cookie from 'cookie_js'
 import format from 'date-fns/format'
 import ReactMarkdown from 'react-markdown'
 
+import { ErrorIndicator } from '../ErrorIndicator'
 import { setLoading, setError } from '../store/userSlice'
 import {
   getArticle,
@@ -19,6 +20,7 @@ import './Article.scss'
 const Article = () => {
   const dispatch = useDispatch()
 
+  const err = useSelector((state) => state.user.error)
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
   const token = cookie.get('tokBlog')
@@ -48,6 +50,7 @@ const Article = () => {
     // console.log(await getArticle(slug, token))
     dispatch(setLoading(true))
     dispatch(setError(null))
+
     const articleInfo = await getArticle(slug, token)
     console.log(articleInfo)
     if (articleInfo.status === 200) {
@@ -76,7 +79,7 @@ const Article = () => {
       setLike({ likeCount: favoritesCount, like: favorited })
     } else {
       dispatch(setLoading(false))
-      dispatch(setError(articleInfo.message))
+      dispatch(setError(articleInfo))
     }
   }, [])
 
@@ -88,7 +91,7 @@ const Article = () => {
       dispatch(setLoading(false))
     } else {
       dispatch(setLoading(false))
-      dispatch(setError(res.message))
+      dispatch(setError(res))
     }
 
     navigate('/')
@@ -113,7 +116,7 @@ const Article = () => {
     const data = format(new Date(year, month, day), 'MMMM d, y')
     return data
   }
-
+  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="article-container">
       <div className="article-preview">

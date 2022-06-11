@@ -6,147 +6,247 @@ const api = axios.create({
 })
 
 const getArticles = async (token, offset, limit) => {
-  const articles = await api.get('articles', {
-    headers: {
-      ...(token ? { 'Authorization': `Token ${token}` } : {}),
-    },
-    params: {
-      limit: limit,
-      offset: offset,
-    },
-  })
-
-  return articles
+  try {
+    const articles = await api.get('articles', {
+      headers: {
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
+      params: {
+        limit: limit,
+        offset: offset,
+      },
+    })
+    return articles
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const create = async (data, token) => {
-  const articleData = await axios({
-    method: 'POST',
-    url: 'https://kata.academy:8021/api/articles',
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-    data: {
-      article: {
-        ...data,
+  try {
+    const articleData = await axios({
+      method: 'POST',
+      url: 'https://kata.academy:8021/api/articles',
+      headers: {
+        'Authorization': `Token ${token}`,
       },
-    },
-  })
+      data: {
+        article: {
+          ...data,
+        },
+      },
+    })
 
-  return articleData
+    return articleData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const edit = async (data, token, slug) => {
-  const articleData = await axios({
-    method: 'PUT',
-    url: `https://kata.academy:8021/api/articles/${slug}`,
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-    data: {
-      article: {
-        ...data,
+  try {
+    const articleData = await axios({
+      method: 'PUT',
+      url: `https://kata.academy:8021/api/articles/${slug}`,
+      headers: {
+        'Authorization': `Token ${token}`,
       },
-    },
-  })
-  return articleData
+      data: {
+        article: {
+          ...data,
+        },
+      },
+    })
+    return articleData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const getArticle = async (slug, token) => {
-  const articleData = await axios({
-    method: 'GET',
-    url: `https://kata.academy:8021/api/articles/${slug}`,
-    headers: {
-      ...(token ? { 'Authorization': `Token ${token}` } : {}),
-    },
-  })
-  return articleData
+  try {
+    const articleData = await axios({
+      method: 'GET',
+      url: `https://kata.academy:8021/api/articles/${slug}`,
+      headers: {
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
+    })
+    return articleData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    console.log(err.message)
+    return err.response.data.errors
+  }
 }
 
 const deleteArticle = async (slug, token) => {
-  const delArticleData = await axios({
-    method: 'DELETE',
-    url: `https://kata.academy:8021/api/articles/${slug}`,
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-  })
-  return delArticleData
-}
-const editProfileData = async (newData, token) => {
-  console.log(newData)
-  const updateData = await axios({
-    method: 'put',
-    url: 'https://kata.academy:8021/api/user',
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-    data: {
-      user: {
-        username: newData.username,
-        email: newData.email,
-        password: newData.password,
-        token: token,
-        bio: '',
-        image: newData.image,
+  try {
+    const delArticleData = await axios({
+      method: 'DELETE',
+      url: `https://kata.academy:8021/api/articles/${slug}`,
+      headers: {
+        'Authorization': `Token ${token}`,
       },
-    },
-  })
-  console.log(updateData)
-  return updateData
+    })
+    return delArticleData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
+}
+
+const editProfileData = async (newData, token) => {
+  try {
+    console.log(newData)
+    const updateData = await axios({
+      method: 'put',
+      url: 'https://kata.academy:8021/api/user',
+      headers: {
+        'Authorization': `Token ${token}`,
+      },
+      data: {
+        user: {
+          username: newData.username,
+          email: newData.email,
+          password: newData.password,
+          token: token,
+          bio: '',
+          image: newData.image,
+        },
+      },
+    })
+    console.log(updateData)
+    return updateData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const getUserData = async (token) => {
-  const dataUser = await api.get('user', {
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-  })
-  return dataUser
+  try {
+    const dataUser = await api.get('user', {
+      headers: {
+        'Authorization': `Token ${token}`,
+      },
+    })
+    return dataUser
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const registerNewUser = async (data) => {
   console.log(data)
-  const regData = await api.post('users', {
-    user: {
-      username: data.userName,
-      email: data.emailAddress,
-      password: data.password,
-    },
-  })
-  return regData
+  try {
+    const regData = await api.post('users', {
+      user: {
+        username: data.userName,
+        email: data.emailAddress,
+        password: data.password,
+      },
+    })
+    return regData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const loginUser = async (data) => {
-  const regData = await api.post('users/login', {
-    user: {
-      email: data.emailAddress,
-      password: data.password,
-    },
-  })
-  return regData
+  try {
+    const regData = await api.post('users/login', {
+      user: {
+        email: data.emailAddress,
+        password: data.password,
+      },
+    })
+    return regData
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const favoriteArticle = async (slug, token) => {
-  const favoriteData = await axios({
-    method: 'POST',
-    url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-  })
-  return favoriteData.data.article
+  try {
+    const favoriteData = await axios({
+      method: 'POST',
+      url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
+      headers: {
+        'Authorization': `Token ${token}`,
+      },
+    })
+    return favoriteData.data.article
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 const unFavoriteArticle = async (slug, token) => {
-  const unfavoriteData = await axios({
-    method: 'DELETE',
-    url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
-    headers: {
-      'Authorization': `Token ${token}`,
-    },
-  })
-  return unfavoriteData.data.article
+  try {
+    const unfavoriteData = await axios({
+      method: 'DELETE',
+      url: `https://kata.academy:8021/api/articles/${slug}/favorite`,
+      headers: {
+        'Authorization': `Token ${token}`,
+      },
+    })
+    return unfavoriteData.data.article
+  } catch (err) {
+    if (err.message === 'Network Error') {
+      return {
+        message: 'Check your Network Connection',
+      }
+    }
+    return err.response.data.errors
+  }
 }
 
 export {

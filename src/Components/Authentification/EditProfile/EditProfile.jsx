@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './EditProfile.scss'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import cookie from 'cookie_js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { ErrorIndicator } from '../../ErrorIndicator'
 import { editProfileData, getUserData } from '../../../api'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 
@@ -15,15 +16,25 @@ const EditProfile = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
+  const err = useSelector((state) => state.user.error)
 
   const [userData, setUserData] = useState({})
 
   useEffect(async () => {
     console.log(await getUserData(token))
     dispatch(setLoading(true))
-    const { username, email, image } = await getUserData(token)
-    dispatch(setLoading(false))
-    setUserData({ username, email, image })
+    dispatch(setError(null))
+
+    const userData = await getUserData(token)
+
+    if (userData.status === 200) {
+      const { username, email, image } = userData.data.user
+      dispatch(setLoading(false))
+      setUserData({ username, email, image })
+    } else {
+      dispatch(setLoading(false))
+      dispatch(setError(userData))
+    }
   }, [])
 
   useEffect(() => {
@@ -74,11 +85,12 @@ const EditProfile = () => {
       navigate('/')
     } else {
       dispatch(setLoading(false))
-      dispatch(setError(updatedData.message))
+      dispatch(setError(updatedData))
     }
 
-    console.log(updatedData)
+    // console.log(updatedData)
   }
+  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="edit-profile-container">
       <h1 className="edit-profile-title">Edit Profile</h1>
