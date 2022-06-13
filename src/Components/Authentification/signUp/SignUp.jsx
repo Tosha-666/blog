@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import cookie from 'cookie_js'
 import './SignUp.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { ErrorIndicator } from '../../ErrorIndicator'
 import { registerNewUser } from '../../../api'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
-  const err = useSelector((state) => state.user.error)
+
   const navigate = useNavigate()
+
+  useEffect(() => {
+    dispatch(setError(null))
+  }, [])
 
   const schema = yup
     .object({
@@ -58,6 +62,9 @@ const SignUp = () => {
     if (regData.status === 200) {
       dispatch(setUser(regData.data.user))
       dispatch(setLoading(true))
+      cookie.set('tokBlog', regData.data.user.token, {
+        expires: 7,
+      })
       navigate('/')
       console.log(regData)
       reset()
@@ -66,7 +73,7 @@ const SignUp = () => {
       dispatch(setError(regData))
     }
   }
-  if (err) return <ErrorIndicator err={err} />
+  // if (err) return <ErrorIndicator err={err} />
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>

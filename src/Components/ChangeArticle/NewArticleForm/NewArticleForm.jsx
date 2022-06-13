@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
+import cookie from 'cookie_js'
 import { useForm, useFieldArray } from 'react-hook-form'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -16,6 +17,7 @@ const NewArticleForm = ({
   sendChanges,
   slug,
 }) => {
+  const token = cookie.get('tokBlog')
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -34,14 +36,6 @@ const NewArticleForm = ({
   const { register, handleSubmit, reset, control, setValue } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
-    // defaultValues: useMemo(() => {
-    //   return {
-    //     tags: arrOfTags,
-    //     title: title,
-    //     description: description,
-    //     body: content,
-    //   }
-    // }),
   })
 
   const { fields, append, remove, replace } = useFieldArray({
@@ -49,7 +43,7 @@ const NewArticleForm = ({
     name: 'tags',
   })
 
-  const token = useSelector((state) => state.user.token)
+  // const token = useSelector((state) => state.user.token)
 
   const navigate = useNavigate()
 
@@ -64,14 +58,14 @@ const NewArticleForm = ({
     const article = { ...data, tagList: tags }
     dispatch(setLoading(true))
     dispatch(setError(null))
-    const chages = await sendChanges(article, token, slug)
-    if (chages.status === 200) {
+    const changes = await sendChanges(article, token, slug)
+    if (changes.status === 200) {
       dispatch(setLoading(false))
       navigate('/')
       reset()
     } else {
-      dispatch(setLoading(true))
-      dispatch(setError(chages.message))
+      dispatch(setLoading(false))
+      dispatch(setError(changes))
     }
   }
   return (

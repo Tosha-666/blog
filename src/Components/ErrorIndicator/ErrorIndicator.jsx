@@ -4,14 +4,17 @@ import { Alert } from 'antd'
 
 const ErrorIndicator = (err) => {
   console.log(err)
-  return (
-    <Alert
-      // message={err.err.error.status}
-      description={err.err.message}
-      type="error"
-      showIcon
-    />
-  )
+  const { name, description, status, message } = err.err
+  console.log(name, description, status, message)
+  if (err)
+    return (
+      <Alert
+        message={message}
+        description={description || ''}
+        type="error"
+        showIcon
+      />
+    )
 }
 
 export default ErrorIndicator

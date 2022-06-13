@@ -82,6 +82,9 @@ const EditProfile = () => {
     if (updatedData.status === 200) {
       dispatch(setUser(updatedData.data.user))
       dispatch(setLoading(false))
+      cookie.set('tokBlog', updatedData.data.user.token, {
+        expires: 7,
+      })
       navigate('/')
     } else {
       dispatch(setLoading(false))

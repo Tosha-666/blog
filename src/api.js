@@ -1,8 +1,9 @@
 import axios from 'axios'
 
+import errorHandler from './helpers/errorHandler'
+
 const api = axios.create({
   baseURL: 'https://kata.academy:8021/api/',
-  // 'https://api.realworld.io/api/'
 })
 
 const getArticles = async (token, offset, limit) => {
@@ -18,12 +19,7 @@ const getArticles = async (token, offset, limit) => {
     })
     return articles
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -44,12 +40,7 @@ const create = async (data, token) => {
 
     return articleData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -69,12 +60,7 @@ const edit = async (data, token, slug) => {
     })
     return articleData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -89,13 +75,7 @@ const getArticle = async (slug, token) => {
     })
     return articleData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    console.log(err.message)
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -110,12 +90,7 @@ const deleteArticle = async (slug, token) => {
     })
     return delArticleData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -142,12 +117,7 @@ const editProfileData = async (newData, token) => {
     console.log(updateData)
     return updateData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -160,12 +130,7 @@ const getUserData = async (token) => {
     })
     return dataUser
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -181,12 +146,7 @@ const registerNewUser = async (data) => {
     })
     return regData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -200,12 +160,9 @@ const loginUser = async (data) => {
     })
     return regData
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    console.log(err)
+
+    return errorHandler(err)
   }
 }
 
@@ -220,12 +177,7 @@ const favoriteArticle = async (slug, token) => {
     })
     return favoriteData.data.article
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -240,12 +192,7 @@ const unFavoriteArticle = async (slug, token) => {
     })
     return unfavoriteData.data.article
   } catch (err) {
-    if (err.message === 'Network Error') {
-      return {
-        message: 'Check your Network Connection',
-      }
-    }
-    return err.response.data.errors
+    return errorHandler(err)
   }
 }
 
@@ -264,5 +211,6 @@ export {
   loginUser,
 }
 // https://api.realworld.io/
-// http://kata.academy:8022/
+// https://kata.academy:8022/
 // https://conduit.productionready.io/api/
+// 'https://api.realworld.io/api/'

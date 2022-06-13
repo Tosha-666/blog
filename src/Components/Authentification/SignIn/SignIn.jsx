@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import cookie from 'cookie_js'
 import './SignIn.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { ErrorIndicator } from '../../ErrorIndicator'
+// import { ErrorIndicator } from '../../ErrorIndicator'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 import { loginUser } from '../../../api'
 
@@ -17,7 +17,13 @@ const SignIn = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const err = useSelector((state) => state.user.error)
+
+  // const err = useSelector((state) => state.user.error)
+
+  useEffect(() => {
+    dispatch(setError(null))
+    console.log('disp')
+  }, [])
 
   const schema = yup.object({
     emailAddress: yup
@@ -43,6 +49,7 @@ const SignIn = () => {
     dispatch(setError(null))
     const loginData = await loginUser(registrationData)
     console.log(loginData)
+
     if (loginData.status === 200) {
       dispatch(setUser(loginData.data.user))
       dispatch(setLoading(false))
@@ -56,7 +63,7 @@ const SignIn = () => {
       dispatch(setError(loginData))
     }
   }
-  if (err) return <ErrorIndicator err={err} />
+
   return (
     <div className="authentification-container">
       <h1 className="authentification-title">Sign In</h1>

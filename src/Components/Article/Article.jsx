@@ -4,6 +4,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import cookie from 'cookie_js'
 import format from 'date-fns/format'
 import ReactMarkdown from 'react-markdown'
+import { Tag } from 'antd'
+import 'antd/dist/antd.css'
 
 import { ErrorIndicator } from '../ErrorIndicator'
 import { setLoading, setError } from '../store/userSlice'
@@ -131,9 +133,10 @@ const Article = () => {
           </div>
           <div className="article-tag-list">
             {aboutArticle.tagList.map((tag) => (
-              <span className="article-tag-item" key={tag}>
-                {tag}
-              </span>
+              <Tag key={tag}>{tag}</Tag>
+              // <span className="article-tag-item" key={tag}>
+              //   {tag}
+              // </span>
             ))}
           </div>
           <span className="article-content">{aboutArticle.description}</span>

@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import cookie from 'cookie_js'
 import format from 'date-fns/format'
+import { Tag } from 'antd'
 
+import 'antd/dist/antd.css'
 import { favoriteArticle, unFavoriteArticle } from '../../api'
 
 import './ArticlePreview.scss'
@@ -71,9 +73,7 @@ const ArticlePreview = ({
         </div>
         <div className="article-tag-list">
           {tagList.map((tag) => (
-            <span className="article-tag-item" key={tagKey++}>
-              {tag}
-            </span>
+            <Tag key={tagKey++}>{tag}</Tag>
           ))}
         </div>
         <span className="article-content">{description}</span>

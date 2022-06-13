@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import cookie from 'cookie_js'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 
+import { ErrorIndicator } from '../ErrorIndicator'
 import { removeUser } from '../store/userSlice'
 import './Layout.scss'
 
 const Layout = () => {
+  const err = useSelector((state) => state.user.error)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const authorise = useSelector((state) => state.user.isAuthorized)
@@ -61,6 +63,7 @@ const Layout = () => {
           </div>
         )}
       </header>
+      {err && <ErrorIndicator err={err} />}
       <section className="container">
         <Outlet />
       </section>

@@ -36,6 +36,7 @@ const userSlice = createSlice({
     },
     setError(state, action) {
       state.error = action.payload
+      console.log(state)
     },
   },
 })
