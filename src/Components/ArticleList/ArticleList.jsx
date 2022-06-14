@@ -41,7 +41,7 @@ const ArticleList = () => {
 
   return (
     <div className="article-preview-container">
-      {[...posts].map((article) => (
+      {posts.map((article) => (
         <ArticlePreview
           key={article.slug}
           slug={article.slug}
