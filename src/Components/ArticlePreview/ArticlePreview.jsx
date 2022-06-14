@@ -40,7 +40,6 @@ const ArticlePreview = ({
         ? await unFavoriteArticle(slug, token)
         : await favoriteArticle(slug, token)
       setLike({ likeCount: favoritesCount, like: favorited })
-      console.log(favorited)
     } else {
       alert('You should Log In first')
     }
@@ -54,7 +53,6 @@ const ArticlePreview = ({
     return data
   }
 
-  // console.log(title, tagList)
   return (
     <div className="article-list-preview">
       <div className="article-list-info">

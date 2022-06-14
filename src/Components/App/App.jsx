@@ -32,7 +32,6 @@ const App = () => {
         dispatch(setLoading(true))
         const userData = await getUserData(cookie.get('tokBlog'))
         if (userData.status === 200) {
-          console.log(userData)
           dispatch(setLoading(false))
           dispatch(setUser(userData.data.user))
         } else {

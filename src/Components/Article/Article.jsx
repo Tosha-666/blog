@@ -49,15 +49,13 @@ const Article = () => {
   const [delModal, setDelModal] = useState(false)
 
   useEffect(async () => {
-    // console.log(await getArticle(slug, token))
     dispatch(setLoading(true))
     dispatch(setError(null))
 
     const articleInfo = await getArticle(slug, token)
-    console.log(articleInfo)
+
     if (articleInfo.status === 200) {
       dispatch(setLoading(false))
-      console.log(articleInfo)
       const {
         title,
         favoritesCount,
@@ -134,9 +132,6 @@ const Article = () => {
           <div className="article-tag-list">
             {aboutArticle.tagList.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
-              // <span className="article-tag-item" key={tag}>
-              //   {tag}
-              // </span>
             ))}
           </div>
           <span className="article-content">{aboutArticle.description}</span>

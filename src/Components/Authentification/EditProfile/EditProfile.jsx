@@ -21,7 +21,6 @@ const EditProfile = () => {
   const [userData, setUserData] = useState({})
 
   useEffect(async () => {
-    console.log(await getUserData(token))
     dispatch(setLoading(true))
     dispatch(setError(null))
 
@@ -69,11 +68,8 @@ const EditProfile = () => {
     formState: { errors },
     handleSubmit,
     reset,
-    getValues,
+    // getValues,
   } = useForm({ mode: 'onChange', resolver: yupResolver(schema) })
-  console.log(getValues())
-
-  // console.log(getValues())
 
   const submiteUserdata = async (data) => {
     dispatch(setLoading(true))
@@ -90,8 +86,6 @@ const EditProfile = () => {
       dispatch(setLoading(false))
       dispatch(setError(updatedData))
     }
-
-    // console.log(updatedData)
   }
   if (err) return <ErrorIndicator err={err} />
   return (

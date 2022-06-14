@@ -7,22 +7,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-// import { ErrorIndicator } from '../../ErrorIndicator'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 import { loginUser } from '../../../api'
 
 const SignIn = () => {
-  // const isAuth = useSelector((state) => state.user.isAuthorized)
-
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
-  // const err = useSelector((state) => state.user.error)
-
   useEffect(() => {
     dispatch(setError(null))
-    console.log('disp')
   }, [])
 
   const schema = yup.object({
@@ -48,7 +42,6 @@ const SignIn = () => {
     dispatch(setLoading(true))
     dispatch(setError(null))
     const loginData = await loginUser(registrationData)
-    console.log(loginData)
 
     if (loginData.status === 200) {
       dispatch(setUser(loginData.data.user))

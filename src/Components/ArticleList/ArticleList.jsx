@@ -5,7 +5,6 @@ import { Pagination } from 'antd'
 import cookie from 'cookie_js'
 import 'antd/dist/antd.css'
 
-import { ErrorIndicator } from '../ErrorIndicator'
 import { getArticles } from '../../api'
 import { setLoading, setError } from '../store/userSlice'
 import { ArticlePreview } from '../ArticlePreview'
@@ -15,7 +14,6 @@ const ArticleList = () => {
 
   const token = cookie.get('tokBlog')
 
-  const err = useSelector((state) => state.user.error)
   const isAuth = useSelector((state) => state.user.isAuthorized)
 
   const [posts, setPosts] = useState([])
@@ -24,12 +22,13 @@ const ArticleList = () => {
   const [articlesPerPage, setArticlesPerPage] = useState(10)
 
   useEffect(async () => {
+    console.log(isAuth)
     const offset = (page > 0 ? page - 1 : 0) * articlesPerPage
     dispatch(setLoading(true))
     dispatch(setError(null))
     const articles = await getArticles(token, offset, articlesPerPage)
-    console.log(articles)
     if (articles.status === 200) {
+      console.log(articles)
       dispatch(setLoading(false))
       setTotalArticles(articles.data.articlesCount)
       setPosts(articles.data.articles)
@@ -37,8 +36,8 @@ const ArticleList = () => {
       dispatch(setLoading(false))
       dispatch(setError(articles))
     }
-  }, [page, isAuth, articlesPerPage])
-  if (err) return <ErrorIndicator err={err} />
+  }, [page, isAuth, articlesPerPage, token])
+
   return (
     <div className="article-preview-container">
       {posts.map((article) => (
@@ -60,14 +59,11 @@ const ArticleList = () => {
           {' '}
           <Pagination
             size="small"
-            // current={page}
-            // defaultPageSize={articlesPerPage}
             onShowSizeChange={(curr, pages) => setArticlesPerPage(pages)}
             showSizeChanger={true}
             onChange={(page) => setPage(page)}
             total={totalArticles}
             hideOnSinglePage
-            // simple
           />
         </div>
       )}

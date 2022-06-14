@@ -14,16 +14,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      console.log(state)
       state.username = action.payload.username
       state.email = action.payload.email
-      // state.token = action.payload.token
       state.image = action.payload.image
       state.isAuthorized = !!action.payload.username
     },
 
     removeUser(state) {
-      console.log(state)
       state.username = null
       state.email = null
       state.token = null
@@ -31,12 +28,10 @@ const userSlice = createSlice({
       state.isAuthorized = false
     },
     setLoading(state, action) {
-      // console.log(action.payload)
       state.loading = action.payload
     },
     setError(state, action) {
       state.error = action.payload
-      console.log(state)
     },
   },
 })

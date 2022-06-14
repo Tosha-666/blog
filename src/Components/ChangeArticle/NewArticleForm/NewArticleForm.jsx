@@ -51,7 +51,6 @@ const NewArticleForm = ({
     const tags = []
     data.tags.forEach((el) => {
       if (el) {
-        console.log(el)
         tags.push(el.tag)
       }
     })
@@ -115,7 +114,7 @@ const NewArticleForm = ({
                   placeholder="Tag"
                   {...register(`tags.${index}.tag`)}
                   className="edit-article-form-content edit-article-form-tag"
-                  required
+                  // required
                 />
 
                 <button

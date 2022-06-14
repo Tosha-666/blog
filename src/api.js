@@ -96,7 +96,6 @@ const deleteArticle = async (slug, token) => {
 
 const editProfileData = async (newData, token) => {
   try {
-    console.log(newData)
     const updateData = await axios({
       method: 'put',
       url: 'https://kata.academy:8021/api/user',
@@ -114,7 +113,6 @@ const editProfileData = async (newData, token) => {
         },
       },
     })
-    console.log(updateData)
     return updateData
   } catch (err) {
     return errorHandler(err)
@@ -135,7 +133,6 @@ const getUserData = async (token) => {
 }
 
 const registerNewUser = async (data) => {
-  console.log(data)
   try {
     const regData = await api.post('users', {
       user: {
@@ -160,8 +157,6 @@ const loginUser = async (data) => {
     })
     return regData
   } catch (err) {
-    console.log(err)
-
     return errorHandler(err)
   }
 }
