@@ -73,7 +73,7 @@ const SignUp = () => {
       dispatch(setError(regData))
     }
   }
-  // if (err) return <ErrorIndicator err={err} />
+
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>

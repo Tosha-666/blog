@@ -18,7 +18,7 @@ const Layout = () => {
   const logOut = () => {
     cookie.set('tokBlog', '')
     dispatch(removeUser())
-    navigate('/')
+    navigate('registration')
   }
 
   return (
@@ -26,7 +26,6 @@ const Layout = () => {
       <header className="header">
         <button className="title">
           <NavLink to="/">Realworld Blog</NavLink>
-          {/* <h1>Realworld Blog</h1> */}
         </button>
 
         {authorise && (

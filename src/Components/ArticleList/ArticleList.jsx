@@ -28,19 +28,20 @@ const ArticleList = () => {
     dispatch(setError(null))
     const articles = await getArticles(token, offset, articlesPerPage)
     if (articles.status === 200) {
-      console.log(articles)
+      console.log(articles.data.articles)
       dispatch(setLoading(false))
+      // const cloneArr = [...JSON.parse(JSON.stringify(articles.data.articles))]
       setTotalArticles(articles.data.articlesCount)
       setPosts(articles.data.articles)
     } else {
       dispatch(setLoading(false))
       dispatch(setError(articles))
     }
-  }, [page, isAuth, articlesPerPage, token])
+  }, [page, isAuth, articlesPerPage])
 
   return (
     <div className="article-preview-container">
-      {posts.map((article) => (
+      {[...posts].map((article) => (
         <ArticlePreview
           key={article.slug}
           slug={article.slug}

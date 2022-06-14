@@ -45,7 +45,6 @@ const App = () => {
   return (
     <div className="main">
       {loading && <Spin size="large" className="spinner" />}
-      {/* {error && <Alert message={error} type="error" />} */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<ArticleList />} />

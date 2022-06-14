@@ -43,16 +43,18 @@ const NewArticleForm = ({
     name: 'tags',
   })
 
-  // const token = useSelector((state) => state.user.token)
-
   const navigate = useNavigate()
 
   const editArticle = async (data) => {
     const tags = []
+
     data.tags.forEach((el) => {
       if (el) {
-        tags.push(el.tag)
+        if (el.tag !== '') {
+          tags.push(el.tag)
+        }
       }
+      return
     })
     const article = { ...data, tagList: tags }
     dispatch(setLoading(true))

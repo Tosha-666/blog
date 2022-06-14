@@ -7,7 +7,6 @@ import ReactMarkdown from 'react-markdown'
 import { Tag } from 'antd'
 import 'antd/dist/antd.css'
 
-import { ErrorIndicator } from '../ErrorIndicator'
 import { setLoading, setError } from '../store/userSlice'
 import {
   getArticle,
@@ -22,7 +21,6 @@ import './Article.scss'
 const Article = () => {
   const dispatch = useDispatch()
 
-  const err = useSelector((state) => state.user.error)
   const authorise = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
   const token = cookie.get('tokBlog')
@@ -116,7 +114,7 @@ const Article = () => {
     const data = format(new Date(year, month, day), 'MMMM d, y')
     return data
   }
-  if (err) return <ErrorIndicator err={err} />
+
   return (
     <div className="article-container">
       <div className="article-preview">

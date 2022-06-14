@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './EditProfile.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import cookie from 'cookie_js'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { ErrorIndicator } from '../../ErrorIndicator'
 import { editProfileData, getUserData } from '../../../api'
 import { setUser, setLoading, setError } from '../../store/userSlice'
 
@@ -16,7 +15,6 @@ const EditProfile = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const err = useSelector((state) => state.user.error)
 
   const [userData, setUserData] = useState({})
 
@@ -68,7 +66,6 @@ const EditProfile = () => {
     formState: { errors },
     handleSubmit,
     reset,
-    // getValues,
   } = useForm({ mode: 'onChange', resolver: yupResolver(schema) })
 
   const submiteUserdata = async (data) => {
@@ -87,7 +84,6 @@ const EditProfile = () => {
       dispatch(setError(updatedData))
     }
   }
-  if (err) return <ErrorIndicator err={err} />
   return (
     <div className="edit-profile-container">
       <h1 className="edit-profile-title">Edit Profile</h1>
