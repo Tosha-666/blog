@@ -8,12 +8,7 @@ const ErrorIndicator = (err) => {
   console.log(name, description, status, message)
   if (err)
     return (
-      <Alert
-        message={message}
-        description={description || ''}
-        type="error"
-        showIcon
-      />
+      <Alert message={name} description={message || ''} type="error" showIcon />
     )
 }
 

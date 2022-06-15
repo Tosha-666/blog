@@ -61,13 +61,16 @@ const ArticlePreview = ({
             <span className="article-list-title">{title}</span>
           </Link>
 
-          <button
-            className={
-              like.like ? 'article-list-like active' : 'article-list-like'
-            }
-            onClick={() => favourArticle(slug, token)}
-          ></button>
-          <span className="article-like-count">{like.likeCount}</span>
+          <div className="article-list-like-container">
+            {' '}
+            <button
+              className={
+                like.like ? 'article-list-like active' : 'article-list-like'
+              }
+              onClick={() => favourArticle(slug, token)}
+            ></button>
+            <span className="article-like-count">{like.likeCount}</span>
+          </div>
         </div>
         <div className="article-tag-list">
           {tagList.map((tag) => (

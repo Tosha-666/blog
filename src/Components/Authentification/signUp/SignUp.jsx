@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { registerNewUser } from '../../../api'
-import { setUser, setLoading, setError } from '../../store/userSlice'
+import { setUser, setLoading, setError as setErr } from '../../store/userSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -16,10 +16,11 @@ const SignUp = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(setError(null))
+    dispatch(setErr(null))
   }, [])
 
   const schema = yup
+
     .object({
       userName: yup
         .string()
@@ -48,20 +49,22 @@ const SignUp = () => {
     .shape({
       registrationAgreement: yup.bool().oneOf([true], 'Accept is required'),
     })
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     reset,
+    // setError,
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
     dispatch(setLoading(true))
-    dispatch(setError(null))
+    dispatch(setErr(null))
     const regData = await registerNewUser(registrationData)
     if (regData.status === 200) {
       dispatch(setUser(regData.data.user))
-      dispatch(setLoading(true))
+      dispatch(setLoading(false))
       cookie.set('tokBlog', regData.data.user.token, {
         expires: 7,
       })
@@ -69,8 +72,8 @@ const SignUp = () => {
       console.log(regData)
       reset()
     } else {
-      dispatch(setLoading(true))
-      dispatch(setError(regData))
+      dispatch(setLoading(false))
+      dispatch(setErr(regData))
     }
   }
 

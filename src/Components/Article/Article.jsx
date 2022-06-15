@@ -21,7 +21,7 @@ import './Article.scss'
 const Article = () => {
   const dispatch = useDispatch()
 
-  const authorise = useSelector((state) => state.user.isAuthorized)
+  const isAuth = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
   const token = cookie.get('tokBlog')
   const navigate = useNavigate()
@@ -97,10 +97,14 @@ const Article = () => {
   }
 
   const favourArticle = async (slug, token) => {
-    const { favorited, favoritesCount } = like.like
-      ? await unFavoriteArticle(slug, token)
-      : await favoriteArticle(slug, token)
-    setLike({ likeCount: favoritesCount, like: favorited })
+    if (isAuth) {
+      const { favorited, favoritesCount } = like.like
+        ? await unFavoriteArticle(slug, token)
+        : await favoriteArticle(slug, token)
+      setLike({ likeCount: favoritesCount, like: favorited })
+    } else {
+      alert('You should Log In first')
+    }
   }
 
   const closeDelModal = (b) => {
@@ -148,7 +152,7 @@ const Article = () => {
               className="article-author-image"
             />
           </div>
-          {authorise && user === aboutArticle.author ? (
+          {isAuth && user === aboutArticle.author ? (
             <div className="article-edit">
               <button className="delete" onClick={() => setDelModal(true)}>
                 Delete
