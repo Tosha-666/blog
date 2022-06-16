@@ -25,7 +25,6 @@ const EditArticle = () => {
   useEffect(async () => {
     dispatch(setLoading(true))
     dispatch(setError(null))
-    // console.log(await getArticle(slug, token))
     const articleInfo = await getArticle(slug, token)
     const { title, description, body, tagList } = articleInfo.data.article
     const arrOfTags = []

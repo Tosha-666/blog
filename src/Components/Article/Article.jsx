@@ -23,6 +23,7 @@ const Article = () => {
 
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const user = useSelector((state) => state.user.username)
+  const err = useSelector((state) => state.user.error)
   const token = cookie.get('tokBlog')
   const navigate = useNavigate()
 
@@ -120,62 +121,66 @@ const Article = () => {
   }
 
   return (
-    <div className="article-container">
-      <div className="article-preview">
-        <div className="article-info">
-          <div className="article-header">
-            <span className="article-title">{aboutArticle.title}</span>
-            <button
-              className={like.like ? 'article-like active' : 'article-like'}
-              onClick={() => favourArticle(slug, token)}
-            ></button>
-            <span className="article-like-count">{like.likeCount}</span>
-          </div>
-          <div className="article-tag-list">
-            {aboutArticle.tagList.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
-          </div>
-          <span className="article-content">{aboutArticle.description}</span>
-        </div>
-        <div className="user-personalize">
-          <div className="people-info">
-            <div className="user-name-wrapper">
-              <span className="article-author-name">{aboutArticle.author}</span>
-              <span className="article-release-date">
-                {formatData(aboutArticle.date)}
-              </span>
+    !err && (
+      <div className="article-container">
+        <div className="article-preview">
+          <div className="article-info">
+            <div className="article-header">
+              <span className="article-title">{aboutArticle.title}</span>
+              <button
+                className={like.like ? 'article-like active' : 'article-like'}
+                onClick={() => favourArticle(slug, token)}
+              ></button>
+              <span className="article-like-count">{like.likeCount}</span>
             </div>
-            <img
-              src={aboutArticle.avatar}
-              alt=""
-              className="article-author-image"
-            />
-          </div>
-          {isAuth && user === aboutArticle.author ? (
-            <div className="article-edit">
-              <button className="delete" onClick={() => setDelModal(true)}>
-                Delete
-              </button>
-              <button className="edit">
-                <Link to={`/article/${slug}/edit`}>Edit</Link>
-              </button>
-              {delModal && (
-                <ModalWindow
-                  delArticle={delArticle}
-                  slug={slug}
-                  token={token}
-                  closeDelModal={closeDelModal}
-                />
-              )}
+            <div className="article-tag-list">
+              {aboutArticle.tagList.map((tag) => (
+                <Tag key={tag}>{tag}</Tag>
+              ))}
             </div>
-          ) : null}
+            <span className="article-content">{aboutArticle.description}</span>
+          </div>
+          <div className="user-personalize">
+            <div className="people-info">
+              <div className="user-name-wrapper">
+                <span className="article-author-name">
+                  {aboutArticle.author}
+                </span>
+                <span className="article-release-date">
+                  {formatData(aboutArticle.date)}
+                </span>
+              </div>
+              <img
+                src={aboutArticle.avatar}
+                alt=""
+                className="article-author-image"
+              />
+            </div>
+            {isAuth && user === aboutArticle.author ? (
+              <div className="article-edit">
+                <button className="delete" onClick={() => setDelModal(true)}>
+                  Delete
+                </button>
+                <button className="edit">
+                  <Link to={`/article/${slug}/edit`}>Edit</Link>
+                </button>
+                {delModal && (
+                  <ModalWindow
+                    delArticle={delArticle}
+                    slug={slug}
+                    token={token}
+                    closeDelModal={closeDelModal}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>
+          <span className="article-content-all">
+            <ReactMarkdown>{aboutArticle.content}</ReactMarkdown>
+          </span>
         </div>
-        <span className="article-content-all">
-          <ReactMarkdown>{aboutArticle.content}</ReactMarkdown>
-        </span>
       </div>
-    </div>
+    )
   )
 }
 export default Article
