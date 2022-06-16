@@ -76,7 +76,6 @@ const App = () => {
               </RequireAuth>
             }
           />
-          {/* <Route path="createArticle" element={<EditArticle />} /> */}
         </Route>
       </Routes>
     </div>

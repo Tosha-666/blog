@@ -6,13 +6,13 @@ const errorHandler = (err) => {
       name: 'Network Error',
       message: 'Check your Network Connection',
       status: 500,
-      description: 'Unable to load resourse',
+      description: { 'Network': 'Unable to load resourse' },
     }
   }
 
   const { name, message } = err
   const { status } = err.response
-  console.log(err.response)
+  // console.log(err.response)
   //   const description = err.response.data.errors ? err.response.data.errors : null
   // const descResult = () => {
   //   if (err.response.data.errors) {
@@ -31,7 +31,7 @@ const errorHandler = (err) => {
   //   }
   // }
   // console.log({ name, message, status, description: descResult() })
-  return { name, message, status, description: err.response.data.errors }
+  return { name, message, status, description: err.response.data }
   // ?descResult() }
 }
 

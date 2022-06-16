@@ -55,7 +55,7 @@ const SignUp = () => {
     formState: { errors },
     handleSubmit,
     reset,
-    // setError,
+    setError,
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
@@ -74,9 +74,22 @@ const SignUp = () => {
     } else {
       dispatch(setLoading(false))
       dispatch(setErr(regData))
+      if (regData.description.errors) {
+        if (regData.description.errors.email) {
+          setError('emailAddress', {
+            type: 'email',
+            message: `Email:${regData.description.errors.email}`,
+          })
+        } else if (regData.description.errors.username) {
+          setError('userName', {
+            type: 'userName',
+            message: `Username:${regData.description.errors.username}`,
+          })
+        }
+      }
     }
   }
-
+  console.log(errors)
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>
@@ -180,7 +193,6 @@ const SignUp = () => {
         <span>
           Already have an account?
           <Link to="/registration">Sign In</Link>
-          {/* <a href="#">Sign In.</a> */}
         </span>
       </form>
     </div>

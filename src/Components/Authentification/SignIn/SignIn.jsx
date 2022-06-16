@@ -54,6 +54,19 @@ const SignIn = () => {
     } else {
       dispatch(setLoading(false))
       dispatch(setError(loginData))
+      if (loginData.description.errors) {
+        if (loginData.description.errors.email) {
+          setError('emailAddress', {
+            type: 'email',
+            message: `Email:${loginData.description.errors.email}`,
+          })
+        } else if (loginData.description.errors.username) {
+          setError('userName', {
+            type: 'userName',
+            message: `Username:${loginData.description.errors.username}`,
+          })
+        }
+      }
     }
   }
 

@@ -15,7 +15,6 @@ const EditArticle = () => {
 
   const { slug } = useParams()
 
-  console.log(slug)
   const [aboutArticle, setAboutArticle] = useState({
     title: null,
     description: null,
@@ -30,8 +29,11 @@ const EditArticle = () => {
     const articleInfo = await getArticle(slug, token)
     const { title, description, body, tagList } = articleInfo.data.article
     const arrOfTags = []
-    console.log(tagList)
-    tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
+    if (tagList.length === 0) {
+      arrOfTags.push({ tag: '' })
+    } else {
+      tagList.map((tagItem) => arrOfTags.push({ tag: tagItem }))
+    }
     setAboutArticle({
       title: title,
       description: description,

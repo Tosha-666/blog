@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 import { setLoading, setError } from '../../store/userSlice'
+
 import './NewArticleForm.scss'
 
 const NewArticleForm = ({
@@ -33,7 +34,7 @@ const NewArticleForm = ({
     body: yup.string().required('This field is required'),
     // tags: yup.string().required('This field is required'),
   })
-  const { register, handleSubmit, reset, control, setValue } = useForm({
+  const { register, handleSubmit, reset, control, setValue, watch } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema),
   })
@@ -60,15 +61,25 @@ const NewArticleForm = ({
     dispatch(setLoading(true))
     dispatch(setError(null))
     const changes = await sendChanges(article, token, slug)
+    const createdSlug = changes.data.article.slug
+
     if (changes.status === 200) {
       dispatch(setLoading(false))
-      navigate('/')
+      navigate(`/article/${createdSlug}`)
       reset()
     } else {
       dispatch(setLoading(false))
       dispatch(setError(changes))
     }
   }
+
+  const correctRemove = (index) => {
+    const inputTags = watch('tags')
+    if (inputTags.length > 1) {
+      remove(index)
+    } else return
+  }
+
   return (
     <form className="edit-article-form" onSubmit={handleSubmit(editArticle)}>
       <label className="edit-article-form-label" htmlFor="title">
@@ -116,12 +127,11 @@ const NewArticleForm = ({
                   placeholder="Tag"
                   {...register(`tags.${index}.tag`)}
                   className="edit-article-form-content edit-article-form-tag"
-                  // required
                 />
 
                 <button
                   type="button"
-                  onClick={() => remove(index)}
+                  onClick={() => correctRemove(index)}
                   className="edit-article-tags-delete"
                 >
                   Delete

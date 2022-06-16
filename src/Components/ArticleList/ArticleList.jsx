@@ -22,15 +22,12 @@ const ArticleList = () => {
   const [articlesPerPage, setArticlesPerPage] = useState(10)
 
   useEffect(async () => {
-    console.log(isAuth)
     const offset = (page > 0 ? page - 1 : 0) * articlesPerPage
     dispatch(setLoading(true))
     dispatch(setError(null))
     const articles = await getArticles(token, offset, articlesPerPage)
     if (articles.status === 200) {
-      console.log(articles.data.articles)
       dispatch(setLoading(false))
-      // const cloneArr = [...JSON.parse(JSON.stringify(articles.data.articles))]
       setTotalArticles(articles.data.articlesCount)
       setPosts(articles.data.articles)
     } else {
@@ -40,35 +37,37 @@ const ArticleList = () => {
   }, [page, isAuth, articlesPerPage])
 
   return (
-    <div className="article-preview-container">
-      {posts.map((article) => (
-        <ArticlePreview
-          key={article.slug}
-          slug={article.slug}
-          title={article.title}
-          author={article.author.username}
-          creationData={article.createdAt}
-          description={article.description}
-          tagList={article.tagList}
-          userAvatar={article.author.image}
-          favoritesCount={article.favoritesCount}
-          favorited={article.favorited}
-        />
-      ))}
-      {totalArticles && (
-        <div className="pagination">
-          {' '}
-          <Pagination
-            size="small"
-            onShowSizeChange={(curr, pages) => setArticlesPerPage(pages)}
-            showSizeChanger={true}
-            onChange={(page) => setPage(page)}
-            total={totalArticles}
-            hideOnSinglePage
+    posts.length > 0 && (
+      <div className="article-preview-container">
+        {posts.map((article) => (
+          <ArticlePreview
+            key={article.slug}
+            slug={article.slug}
+            title={article.title}
+            author={article.author.username}
+            creationData={article.createdAt}
+            description={article.description}
+            tagList={article.tagList}
+            userAvatar={article.author.image}
+            favoritesCount={article.favoritesCount}
+            favorited={article.favorited}
           />
-        </div>
-      )}
-    </div>
+        ))}
+        {totalArticles && (
+          <div className="pagination">
+            {' '}
+            <Pagination
+              size="small"
+              onShowSizeChange={(curr, pages) => setArticlesPerPage(pages)}
+              showSizeChanger={true}
+              onChange={(page) => setPage(page)}
+              total={totalArticles}
+              hideOnSinglePage
+            />
+          </div>
+        )}
+      </div>
+    )
   )
 }
 

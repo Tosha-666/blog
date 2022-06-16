@@ -4,7 +4,9 @@ import { Alert } from 'antd'
 
 const ErrorIndicator = (err) => {
   console.log(err)
+
   const { name, description, status, message } = err.err
+
   console.log(name, description, status, message)
   if (err)
     return (
