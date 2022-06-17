@@ -14,6 +14,7 @@ import { SignIn } from '../Authentification/SignIn'
 import { EditArticle } from '../ChangeArticle/EditArticle'
 import { CreateArticle } from '../ChangeArticle/CreateArticle'
 import { EditProfile } from '../Authentification/EditProfile'
+import { NotFoundPage } from '../NotFoundPage'
 import { getUserData } from '../../api'
 import { setUser, setLoading, setError } from '../store/userSlice'
 import RequireAuth from '../hoc/RequireAuth'
@@ -76,6 +77,7 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>

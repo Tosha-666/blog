@@ -1,0 +1,20 @@
+@mixin fontz($size, $height) {
+  font-size: $size;
+  font-weight: 400;
+  line-height: $height;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.not--found {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40%;
+  .not--found-title {
+    @include fontz(29px, 32px);
+    color: #00000080;
+  }
+  .not--found-article {
+    @include fontz(24px, 26px);
+    color: #00000080;
+  }
+}
