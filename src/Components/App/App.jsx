@@ -5,7 +5,6 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css'
 import cookie from 'cookie_js'
-// import { useSessionStorage } from 'react-sessionstorage'
 
 import { Layout } from '../Layout'
 import { ArticleList } from '../ArticleList'
@@ -32,10 +31,7 @@ const App = () => {
       return
     } else {
       console.log(location)
-      // console.log(JSON.parse(sessionStorages.blogAuth))
-      // dispatch(setUser(JSON.parse(sessionStorages.blogAuth)))
       if (cookie.get('tokBlog')) {
-        // dispatch(setUser(JSON.parse(sessionStorages.blogAuth)))
         dispatch(setLoading(true))
         const userData = await getUserData(cookie.get('tokBlog'))
         if (userData.status === 200) {
