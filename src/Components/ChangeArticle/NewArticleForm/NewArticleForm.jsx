@@ -61,9 +61,9 @@ const NewArticleForm = ({
     dispatch(setLoading(true))
     dispatch(setError(null))
     const changes = await sendChanges(article, token, slug)
-    const createdSlug = changes.data.article.slug
 
     if (changes.status === 200) {
+      const createdSlug = changes.data.article.slug
       dispatch(setLoading(false))
       navigate(`/article/${createdSlug}`)
       reset()

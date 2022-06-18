@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import cookie from 'cookie_js'
 import { useDispatch } from 'react-redux'
+import { useSessionStorage } from 'react-sessionstorage'
 
 import { NewArticleForm } from '../NewArticleForm'
 import { setLoading, setError } from '../../store/userSlice'

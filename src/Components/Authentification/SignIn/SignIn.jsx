@@ -52,6 +52,7 @@ const SignIn = () => {
       navigate('/')
       reset()
     } else {
+      navigate('registration')
       dispatch(setLoading(false))
       dispatch(setError(loginData))
       if (loginData.description.errors) {

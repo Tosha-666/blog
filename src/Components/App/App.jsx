@@ -1,10 +1,11 @@
 import './App.scss'
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Spin } from 'antd'
 import 'antd/dist/antd.css'
 import cookie from 'cookie_js'
+// import { useSessionStorage } from 'react-sessionstorage'
 
 import { Layout } from '../Layout'
 import { ArticleList } from '../ArticleList'
@@ -22,19 +23,25 @@ import RequireAuth from '../hoc/RequireAuth'
 const App = () => {
   const isAuth = useSelector((state) => state.user.isAuthorized)
   const loading = useSelector((state) => state.user.loading)
-
+  const location = useLocation()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect(async () => {
     if (isAuth) {
       return
     } else {
+      console.log(location)
+      // console.log(JSON.parse(sessionStorages.blogAuth))
+      // dispatch(setUser(JSON.parse(sessionStorages.blogAuth)))
       if (cookie.get('tokBlog')) {
+        // dispatch(setUser(JSON.parse(sessionStorages.blogAuth)))
         dispatch(setLoading(true))
         const userData = await getUserData(cookie.get('tokBlog'))
         if (userData.status === 200) {
           dispatch(setLoading(false))
           dispatch(setUser(userData.data.user))
+          navigate(location.pathname)
         } else {
           dispatch(setLoading(false))
           dispatch(setError(userData.message))
