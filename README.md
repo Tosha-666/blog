@@ -1,4 +1,4 @@
-https://blog-rcw6ne0ex-tosha-666.vercel.app/
+https://blog-lrsc38rid-tosha-666.vercel.app/
 
 <!--
 {
