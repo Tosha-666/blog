@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { editProfileData, getUserData } from '../../../api'
-import { setUser, setLoading, setError } from '../../store/userSlice'
+import { setUser, setLoading, setError as setErr } from '../../store/userSlice'
 
 const EditProfile = () => {
   const token = cookie.get('tokBlog')
@@ -20,7 +20,7 @@ const EditProfile = () => {
 
   useEffect(async () => {
     dispatch(setLoading(true))
-    dispatch(setError(null))
+    dispatch(setErr(null))
 
     const userData = await getUserData(token)
 
@@ -30,7 +30,7 @@ const EditProfile = () => {
       setUserData({ username, email, image })
     } else {
       dispatch(setLoading(false))
-      dispatch(setError(userData))
+      dispatch(setErr(userData))
     }
   }, [])
 
@@ -66,11 +66,12 @@ const EditProfile = () => {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({ mode: 'onChange', resolver: yupResolver(schema) })
+    setError,
+  } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const submiteUserdata = async (data) => {
     dispatch(setLoading(true))
-    dispatch(setError(null))
+    dispatch(setErr(null))
     const updatedData = await editProfileData(data, token)
     if (updatedData.status === 200) {
       dispatch(setUser(updatedData.data.user))
@@ -80,8 +81,22 @@ const EditProfile = () => {
       })
       navigate('/')
     } else {
+      navigate('/editProfile')
       dispatch(setLoading(false))
-      dispatch(setError(updatedData))
+      dispatch(setErr(updatedData))
+      if (updatedData.description.errors) {
+        if (updatedData.description.errors.email) {
+          setError('email', {
+            type: 'email',
+            message: `Email:${updatedData.description.errors.email}`,
+          })
+        } else if (updatedData.description.errors.username) {
+          setError('username', {
+            type: 'userName',
+            message: `Username:${updatedData.description.errors.username}`,
+          })
+        }
+      }
     }
   }
   return (
@@ -101,11 +116,15 @@ const EditProfile = () => {
           id="UserName"
           autoComplete="off"
           className={`edit-profile-input ${
-            errors.userName ? 'is-invalid' : ''
+            errors.username ? 'is-invalid' : ''
           }`}
           placeholder="Username"
           {...register('username')}
         />
+        <div className="registration-error">
+          {' '}
+          {errors?.username && <p>{errors?.username?.message}</p>}
+        </div>
 
         <label htmlFor="EmailAdress" className="edit-profile-label">
           Email address
@@ -121,7 +140,7 @@ const EditProfile = () => {
         />
         <div className="registration-error">
           {' '}
-          {errors?.emailAddress && <p>{errors?.emailAddress?.message}</p>}
+          {errors?.email && <p>{errors?.email?.message}</p>}
         </div>
 
         <label htmlFor="Password" className="edit-profile-label">

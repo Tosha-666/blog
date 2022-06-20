@@ -94,7 +94,6 @@ const Article = () => {
     }
 
     navigate('/')
-    console.log(res)
   }
 
   const favourArticle = async (slug, token) => {

@@ -27,9 +27,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(async () => {
-    console.log('useEffect')
     if (isAuth) {
-      console.log(isAuth)
       return
     } else {
       if (cookie.get('tokBlog')) {
@@ -40,12 +38,10 @@ const App = () => {
           dispatch(setUser(userData.data.user))
           navigate(location.pathname)
         } else if (userData.status === 500) {
-          console.log(userData.status)
           dispatch(setLoading(false))
           dispatch(setError(userData.message))
           navigate('/')
         } else {
-          console.log(userData.status)
           dispatch(setLoading(false))
           dispatch(setError(userData.message))
           navigate(location.pathname)
