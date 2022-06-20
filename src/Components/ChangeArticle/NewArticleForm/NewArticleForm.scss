@@ -48,6 +48,9 @@
       cursor: pointer;
       border-radius: 4px;
     }
+    .disabled {
+      opacity: 60%;
+    }
     .edit-article-tags-add {
       position: absolute;
       border: 1px solid #1890ff;

@@ -1,10 +1,9 @@
 const errorHandler = (err) => {
-  console.log(err)
-  console.log(err.message)
-  console.log(typeof err.message)
+  // console.log(err)
+  // console.log(err.message)
+  // console.log(typeof err.message)
 
   if (err.message === 'Network Error') {
-    console.log('here')
     return {
       name: 'Network Error',
       message: 'Check your Network Connection',
@@ -34,7 +33,6 @@ const errorHandler = (err) => {
     // }
     // console.log({ name, message, status, description: descResult() })
     return { name, message, status, description: err.response.data }
-    // ?descResult() }
   }
 }
 

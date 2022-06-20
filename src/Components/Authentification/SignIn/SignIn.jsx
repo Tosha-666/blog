@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { setUser, setLoading, setError } from '../../store/userSlice'
+import { setUser, setLoading, setError as setErr } from '../../store/userSlice'
 import { loginUser } from '../../../api'
 
 const SignIn = () => {
@@ -16,7 +16,7 @@ const SignIn = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(setError(null))
+    dispatch(setErr(null))
   }, [])
 
   const schema = yup.object({
@@ -36,11 +36,12 @@ const SignIn = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    setError,
   } = useForm({ mode: 'onBlur', resolver: yupResolver(schema) })
 
   const registrationUser = async (registrationData) => {
     dispatch(setLoading(true))
-    dispatch(setError(null))
+    dispatch(setErr(null))
     const loginData = await loginUser(registrationData)
 
     if (loginData.status === 200) {
@@ -52,19 +53,18 @@ const SignIn = () => {
       navigate('/')
       reset()
     } else {
-      navigate('registration')
+      navigate('/registration')
       dispatch(setLoading(false))
-      dispatch(setError(loginData))
+      dispatch(setErr(loginData))
       if (loginData.description.errors) {
-        if (loginData.description.errors.email) {
+        if (loginData.description.errors['email or password']) {
           setError('emailAddress', {
-            type: 'email',
-            message: `Email:${loginData.description.errors.email}`,
+            type: 'email or password',
+            message: `Email or password:${loginData.description.errors['email or password']}`,
           })
-        } else if (loginData.description.errors.username) {
-          setError('userName', {
-            type: 'userName',
-            message: `Username:${loginData.description.errors.username}`,
+          setError('password', {
+            type: 'email or password',
+            message: `Email or password:${loginData.description.errors['email or password']}`,
           })
         }
       }

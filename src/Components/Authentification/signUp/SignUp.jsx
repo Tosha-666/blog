@@ -69,9 +69,9 @@ const SignUp = () => {
         expires: 7,
       })
       navigate('/')
-      console.log(regData)
       reset()
     } else {
+      navigate('/authentification')
       dispatch(setLoading(false))
       dispatch(setErr(regData))
       if (regData.description.errors) {
@@ -89,7 +89,7 @@ const SignUp = () => {
       }
     }
   }
-  console.log(errors)
+
   return (
     <div className="registration-container">
       <h1 className="registration-title">Create new account</h1>

@@ -7,7 +7,6 @@ const RequireAuth = ({ children }) => {
   const authorise = useSelector((state) => state.user.isAuthorized)
 
   if (!authorise) {
-    console.log(location)
     return <Navigate to={'registration'} state={{ from: location }} />
   }
   return children

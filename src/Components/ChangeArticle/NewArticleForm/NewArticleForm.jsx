@@ -32,7 +32,6 @@ const NewArticleForm = ({
     title: yup.string().required('This field is required'),
     description: yup.string().required('This field is required'),
     body: yup.string().required('This field is required'),
-    // tags: yup.string().required('This field is required'),
   })
   const { register, handleSubmit, reset, control, setValue, watch } = useForm({
     mode: 'onBlur',
@@ -72,12 +71,13 @@ const NewArticleForm = ({
       dispatch(setError(changes))
     }
   }
-
+  const inputTags = watch('tags')
   const correctRemove = (index) => {
-    const inputTags = watch('tags')
     if (inputTags.length > 1) {
       remove(index)
-    } else return
+    } else {
+      replace([{ tag: '' }])
+    }
   }
 
   return (
@@ -132,7 +132,11 @@ const NewArticleForm = ({
                 <button
                   type="button"
                   onClick={() => correctRemove(index)}
-                  className="edit-article-tags-delete"
+                  className={
+                    inputTags.length === 1 && inputTags[0].tag === ''
+                      ? 'disabled edit-article-tags-delete'
+                      : 'edit-article-tags-delete'
+                  }
                 >
                   Delete
                 </button>
