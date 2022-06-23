@@ -8,13 +8,14 @@ import 'antd/dist/antd.css'
 import { getArticles } from '../../api'
 import { setLoading, setError } from '../store/userSlice'
 import { ArticlePreview } from '../ArticlePreview'
+import { isAuthorized } from '../store/selectors'
 
 const ArticleList = () => {
   const dispatch = useDispatch()
 
   const token = cookie.get('tokBlog')
 
-  const isAuth = useSelector((state) => state.user.isAuthorized)
+  const isAuth = useSelector((state) => isAuthorized(state))
 
   const [posts, setPosts] = useState([])
   const [page, setPage] = useState(0)
@@ -29,7 +30,7 @@ const ArticleList = () => {
     if (articles.status === 200) {
       dispatch(setLoading(false))
       setTotalArticles(articles.data.articlesCount)
-      setPosts(articles.data.articles)
+      setPosts(Object.assign([], articles.data.articles))
     } else {
       dispatch(setLoading(false))
       dispatch(setError(articles))

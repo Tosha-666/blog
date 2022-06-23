@@ -16,12 +16,15 @@ import { CreateArticle } from '../ChangeArticle/CreateArticle'
 import { EditProfile } from '../Authentification/EditProfile'
 import { NotFoundPage } from '../NotFoundPage'
 import { getUserData } from '../../api'
+import { isAuthorized, load } from '../store/selectors'
 import { setUser, setLoading, setError } from '../store/userSlice'
 import RequireAuth from '../hoc/RequireAuth'
 
 const App = () => {
-  const isAuth = useSelector((state) => state.user.isAuthorized)
-  const loading = useSelector((state) => state.user.loading)
+  const isAuth = useSelector((state) => isAuthorized(state))
+  const loading = useSelector((state) => load(state))
+  // const isAuth = useSelector((state) => state.user.isAuthorized)
+  // const loading = useSelector((state) => state.user.loading)
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()

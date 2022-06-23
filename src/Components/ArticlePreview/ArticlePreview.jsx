@@ -7,6 +7,7 @@ import { Tag } from 'antd'
 
 import 'antd/dist/antd.css'
 import { favoriteArticle, unFavoriteArticle } from '../../api'
+import { isAuthorized } from '../store/selectors'
 
 import './ArticlePreview.scss'
 
@@ -22,8 +23,10 @@ const ArticlePreview = ({
   slug,
 }) => {
   let tagKey = 100
+
   const token = cookie.get('tokBlog')
-  const isAuth = useSelector((state) => state.user.isAuthorized)
+
+  const isAuth = useSelector((state) => isAuthorized(state))
 
   useEffect(() => {
     setLike({ likeCount: favoritesCount, like: favorited })

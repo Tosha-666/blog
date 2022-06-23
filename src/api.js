@@ -143,7 +143,6 @@ const registerNewUser = async (data) => {
     })
     return regData
   } catch (err) {
-    console.log(errorHandler(err))
     return errorHandler(err)
   }
 }

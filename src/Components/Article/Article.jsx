@@ -15,15 +15,18 @@ import {
   unFavoriteArticle,
 } from '../../api'
 import ModalWindow from '../ModalWindow/ModalWindow'
-
+import { isAuthorized, username, error } from '../store/selectors'
 import './Article.scss'
 
 const Article = () => {
   const dispatch = useDispatch()
 
-  const isAuth = useSelector((state) => state.user.isAuthorized)
-  const user = useSelector((state) => state.user.username)
-  const err = useSelector((state) => state.user.error)
+  const isAuth = useSelector((state) => isAuthorized(state))
+  const user = useSelector((state) => username(state))
+  const err = useSelector((state) => error(state))
+  // const isAuth = useSelector((state) => state.user.isAuthorized)
+  // const user = useSelector((state) => state.user.username)
+  // const err = useSelector((state) => state.user.error)
   const token = cookie.get('tokBlog')
   const navigate = useNavigate()
 
