@@ -42,7 +42,7 @@ const ArticleList = () => {
       <div className="article-preview-container">
         {posts.map((article) => (
           <ArticlePreview
-            key={article.slug}
+            key={`${article.slug}${article.favorited.toString()}`}
             slug={article.slug}
             title={article.title}
             author={article.author.username}
